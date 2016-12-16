@@ -16,6 +16,9 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{1c98699a-5c0e-480e-8338-05e2650af6f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{fd0cc6c8-928a-4f38-9ffb-582a653eaf6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -37,10 +40,19 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="WindowManager.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogManager.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDialog.h">
+      <Filter>Dialogs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,10 +66,19 @@
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogManager.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDialog.cpp">
+      <Filter>Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

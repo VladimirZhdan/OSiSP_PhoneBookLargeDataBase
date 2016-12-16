@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "resource.h"
 #include "WindowManager.h"
+#include "DialogManager.h"
 
 class MainWindow : public Window
 {

@@ -41,7 +41,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			//DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			DialogManager::GetInstance()->ShowDialog(DIALOG_TYPE::ABOUT, hWnd);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
