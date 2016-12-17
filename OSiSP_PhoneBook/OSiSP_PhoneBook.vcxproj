@@ -152,6 +152,7 @@
     <ClInclude Include="ListView.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="OSiSP_PhoneBook.h" />
+    <ClInclude Include="PhonebookListView.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="ListView.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="OSiSP_PhoneBook.cpp" />
+    <ClCompile Include="PhonebookListView.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

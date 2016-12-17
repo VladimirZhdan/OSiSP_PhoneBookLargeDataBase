@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "WindowManager.h"
 #include "DialogManager.h"
+#include "PhonebookListView.h"
 
 class MainWindow : public Window
 {
@@ -14,17 +15,24 @@ public:
 	void Hide();	
 protected:
 	//controls	
+	
 	HMENU hMenu;
+	PhonebookListView *listViewPhonebook;
+
 	//methods
+	
 	void Init();	
 	//friends procs
-	friend LRESULT CALLBACK MainWndProc(
+	
+	static LRESULT CALLBACK MainWndProc(
 		HWND,
 		UINT,
 		WPARAM,
 		LPARAM
 	);
+	
 	//fields	
+	
 	bool needRefresh;
 };
 
