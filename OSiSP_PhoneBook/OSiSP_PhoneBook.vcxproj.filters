@@ -19,6 +19,9 @@
     <Filter Include="Dialogs">
       <UniqueIdentifier>{fd0cc6c8-928a-4f38-9ffb-582a653eaf6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{95c9d444-cf44-4369-837f-d9982db46ae1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,6 +57,9 @@
     <ClInclude Include="AboutDialog.h">
       <Filter>Dialogs</Filter>
     </ClInclude>
+    <ClInclude Include="ListView.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -79,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="AboutDialog.cpp">
       <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ListView.cpp">
+      <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

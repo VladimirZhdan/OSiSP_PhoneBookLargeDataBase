@@ -92,6 +92,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,6 +149,7 @@
     <ClInclude Include="AboutDialog.h" />
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="DialogManager.h" />
+    <ClInclude Include="ListView.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="OSiSP_PhoneBook.h" />
     <ClInclude Include="Resource.h" />
@@ -160,6 +162,7 @@
     <ClCompile Include="AboutDialog.cpp" />
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DialogManager.cpp" />
+    <ClCompile Include="ListView.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="OSiSP_PhoneBook.cpp" />
     <ClCompile Include="stdafx.cpp">
