@@ -1,0 +1,3 @@
+LIBRARY	PhoneDataBase
+EXPORTS
+	LoadPhoneBookList	@1

@@ -9,7 +9,7 @@
 #include "PhoneBookNode.h"
 #include "FileLogic.h"
 
-__declspec(dllexport) std::vector<PhoneBookNode*>* WINAPI GetPhoneBookList(LPTSTR fileName)
+std::vector<PhoneBookNode*>* WINAPI LoadPhoneBookList(LPTSTR fileName)
 {
 	return FileLogic::GetPhoneBookList(fileName);
 }

@@ -16,6 +16,9 @@
     <Filter Include="DataBase">
       <UniqueIdentifier>{0bc4a6c9-3577-49d6-9d2e-cabfb677ed30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Custom">
+      <UniqueIdentifier>{21286ffe-0093-4584-883b-cba6956c6912}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,14 +33,14 @@
     <ClInclude Include="PhoneBookNode.h">
       <Filter>DataBase</Filter>
     </ClInclude>
-    <ClInclude Include="FileLogic.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Convert.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Custom</Filter>
     </ClInclude>
     <ClInclude Include="CommonTTypes.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLogic.h">
+      <Filter>Custom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +56,16 @@
     <ClCompile Include="PhoneBookNode.cpp">
       <Filter>DataBase</Filter>
     </ClCompile>
-    <ClCompile Include="FileLogic.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Convert.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Custom</Filter>
     </ClCompile>
+    <ClCompile Include="FileLogic.cpp">
+      <Filter>Custom</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Define.def">
+      <Filter>Файлы исходного кода</Filter>
+    </None>
   </ItemGroup>
 </Project>
