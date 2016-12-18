@@ -75,6 +75,9 @@
     <ClInclude Include="PhoneBookNode.h">
       <Filter>Custom</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="PhoneBookNode.cpp">
       <Filter>Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

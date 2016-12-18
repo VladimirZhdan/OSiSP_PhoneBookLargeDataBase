@@ -30,6 +30,14 @@ void MainWindow::Init()
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
  	listViewPhonebook = new PhonebookListView(0, 50, clientRect.right, clientRect.bottom - 50, hWnd, WindowManager::GetHInstance(), clientRect);
+
+	btnRefresh = new Button(clientRect.right - 100, clientRect.top + 10, 100, 30, hWnd, ID_BTN_REFRESH, WindowManager::GetHInstance(), _T("Обновить"));
+	btnRefresh->SetEnabled(true);
+}
+
+void MainWindow::RefrechListView()
+{
+	listViewPhonebook->Refresh();
 }
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
@@ -47,7 +55,21 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 	case WM_COMMAND:
 	{
 		int wmId = LOWORD(wParam);
+		int wmEvent = HIWORD(wParam);
 		// Разобрать выбор в меню:
+		if (wmEvent == BN_CLICKED)
+		{
+			switch (wmId)
+			{
+			case ID_BTN_REFRESH:
+				{
+					mainWindow->RefrechListView();
+					SendMessage(hWnd, WM_SIZE, NULL, NULL);
+				}
+				break;
+			}
+		}
+
 		switch (wmId)
 		{
 		case IDM_ABOUT:

@@ -41,6 +41,14 @@ void PhonebookListView::ChangeSize(int newWidth, int newHeight)
 	listViewPhonebook->ChangeSize(x, y, nWidht, nHeight);
 }
 
+void PhonebookListView::Refresh()
+{
+	delete phoneBookList;
+	listViewPhonebook->Clear();
+	InitListLiew(false);
+	InvalidateRect(listViewPhonebook->GetHWND(), NULL, TRUE);
+}
+
 void PhonebookListView::InitListLiew(bool isRefresh)
 {
 	phoneBookList = phoneDataBase->LoadPhoneBookList(_T("DataBase.txt"));

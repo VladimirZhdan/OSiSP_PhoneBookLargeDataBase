@@ -5,6 +5,9 @@
 #include "WindowManager.h"
 #include "DialogManager.h"
 #include "PhonebookListView.h"
+#include "Button.h"
+
+#define ID_BTN_REFRESH 1000
 
 class MainWindow : public Window
 {
@@ -22,6 +25,7 @@ protected:
 	//methods
 	
 	void Init();	
+	void RefrechListView();
 	//friends procs
 	
 	static LRESULT CALLBACK MainWndProc(
@@ -34,6 +38,7 @@ protected:
 	//fields	
 	
 	bool needRefresh;
+	Button *btnRefresh;
 
 };
 

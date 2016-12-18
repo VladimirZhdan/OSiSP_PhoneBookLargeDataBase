@@ -9,6 +9,7 @@ class PhonebookListView
 public:
 	PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst, RECT windowRect);
 	void ChangeSize(int newWidth, int newHeight);
+	void Refresh();
 	~PhonebookListView();
 
 private:	
