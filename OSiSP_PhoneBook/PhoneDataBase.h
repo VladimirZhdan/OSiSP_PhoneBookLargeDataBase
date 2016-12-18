@@ -10,18 +10,21 @@ class PhoneDataBase
 {
 public:
 	PhoneDataBase(HWND hWnd);
+	bool IsReadyToWork();
+	std::vector<PhoneBookNode*>* LoadPhoneBookList(LPTSTR fileName);
 	~PhoneDataBase();
 private:
 	//Methods
 
 	void Init();
-	FARPROC ImportFunction(LPTSTR functionName);
+	FARPROC ImportFunction(tstring functionName);
 
 	//Fields
 
+	bool isReadyToWork;
 	HWND hWnd;
 	HINSTANCE hLibrary;
-	static tstring libratyPath;
+	static const tstring libratyPath;
 	PLoadPhoneBookList pLoadPhoneBookList;
 };
 

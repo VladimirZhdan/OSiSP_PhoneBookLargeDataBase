@@ -170,6 +170,7 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="OSiSP_PhoneBook.cpp" />
     <ClCompile Include="PhonebookListView.cpp" />
+    <ClCompile Include="PhoneBookNode.cpp" />
     <ClCompile Include="PhoneDataBase.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

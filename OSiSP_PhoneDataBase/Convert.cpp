@@ -4,6 +4,7 @@
 void Convert::ConvertStringToLPTSTR(LPTSTR & desc, const string src)
 {
 	tstring tempSrc(src.begin(), src.end());
-	desc = new TCHAR[src.size() + 1];
-	_tcscpy_s(desc, src.size(), tempSrc.c_str());			
+	int descSize = (src.size() + 1);
+	desc = new TCHAR[descSize];
+	_tcscpy_s(desc, descSize, tempSrc.c_str());			
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ListView.h"
+#include "PhoneDataBase.h"
+#include <vector>
 
 class PhonebookListView
 {
@@ -21,5 +23,8 @@ private:
 	double ratioY;
 	double ratioNWidth;
 	double ratioNHeight;
+	PhoneDataBase *phoneDataBase;
+	std::vector<PhoneBookNode*>* phoneBookList;
+
 };
 

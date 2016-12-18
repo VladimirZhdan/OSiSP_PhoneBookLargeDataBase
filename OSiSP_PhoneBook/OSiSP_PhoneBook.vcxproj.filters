@@ -110,6 +110,9 @@
     <ClCompile Include="OSiSP_PhoneBook.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="PhoneBookNode.cpp">
+      <Filter>Custom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OSiSP_PhoneBook.rc">

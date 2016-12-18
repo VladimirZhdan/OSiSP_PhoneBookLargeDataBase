@@ -28,6 +28,7 @@ PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND
 		this->ratioNHeight = 0;
 	}
 	listViewPhonebook = new ListView(X, Y, nWidth, nHeight, hWndParent, hInst);
+	phoneDataBase = new PhoneDataBase(listViewPhonebook->GetHWND());
 	InitListLiew();
 }
 
@@ -42,6 +43,8 @@ void PhonebookListView::ChangeSize(int newWidth, int newHeight)
 
 void PhonebookListView::InitListLiew(bool isRefresh)
 {
+	phoneBookList = phoneDataBase->LoadPhoneBookList(_T("DataBase.txt"));
+
 	if (!isRefresh)
 	{
 		//Inserting Columns	
@@ -55,21 +58,26 @@ void PhonebookListView::InitListLiew(bool isRefresh)
 		listViewPhonebook->AddColumn(_T(" вартира"), 0.08);
 	}
 
-	/*for (int i = 0; i < programs.size(); ++i)
+	for (int i = 0; i < phoneBookList->size(); ++i)
 	{
 		int currentRow;
-		listViewPrograms->InsertNewRowWithFirstColumn((TCHAR*)programs[i]->GetDisplayName().c_str(), programImageIndex[i], currentRow);
+		listViewPhonebook->InsertNewRowWithFirstColumn((TCHAR*)(*phoneBookList)[i]->GetPhoneNumber(), currentRow);
 
-		listViewPrograms->SetItem(currentRow, 1, (TCHAR*)programs[i]->GetSize().c_str());
-		listViewPrograms->SetItem(currentRow, 2, (TCHAR*)programs[i]->GetVersion().c_str());
-		listViewPrograms->SetItem(currentRow, 3, (TCHAR*)programs[i]->GetInstallDate().c_str());
-		listViewPrograms->SetItem(currentRow, 4, (TCHAR*)programs[i]->GetCompany().c_str());
-	}*/
+		listViewPhonebook->SetItem(currentRow, 1, (TCHAR*)(*phoneBookList)[i]->GetSurname());		
+		listViewPhonebook->SetItem(currentRow, 2, (TCHAR*)(*phoneBookList)[i]->GetName());
+		listViewPhonebook->SetItem(currentRow, 3, (TCHAR*)(*phoneBookList)[i]->GetPatronymic());
+		listViewPhonebook->SetItem(currentRow, 4, (TCHAR*)(*phoneBookList)[i]->GetStreet());
+		listViewPhonebook->SetItem(currentRow, 5, (TCHAR*)(*phoneBookList)[i]->GetHouse());
+		listViewPhonebook->SetItem(currentRow, 6, (TCHAR*)(*phoneBookList)[i]->GetBuilding());
+		listViewPhonebook->SetItem(currentRow, 7, (TCHAR*)(*phoneBookList)[i]->GetApartment());
+	}
 }
 
 PhonebookListView::~PhonebookListView()
 {
 	delete listViewPhonebook;
+	delete phoneDataBase;
+	delete phoneBookList;
 }
 
 

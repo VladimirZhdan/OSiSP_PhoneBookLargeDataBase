@@ -34,5 +34,6 @@ protected:
 	//fields	
 	
 	bool needRefresh;
+
 };
 
