@@ -11,6 +11,8 @@
 
 #define ID_BTN_REFRESH 1000
 #define ID_BTN_SEARCH 1001
+#define ID_EDIT_SEARCH 1021
+#define ID_COMBOBOX_SEARCH 1007
 
 class MainWindow : public Window
 {

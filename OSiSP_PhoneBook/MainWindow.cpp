@@ -39,24 +39,31 @@ void MainWindow::Init()
 	btnRefresh = new Button(clientRect.right - 100, clientRect.top + 10, 100, 30, hWnd, ID_BTN_REFRESH, WindowManager::GetHInstance(), _T("Обновить"));
 	btnRefresh->SetEnabled(true);
 
-	cBoxSearchCriterion = new ComboBox(clientRect.left + 10, clientRect.top + 10, 100, 30, hWnd, WindowManager::GetHInstance(), 3);
+	cBoxSearchCriterion = new ComboBox(clientRect.left + 10, clientRect.top + 10, 100, 30, hWnd, ID_COMBOBOX_SEARCH, WindowManager::GetHInstance(), 3);
 	cBoxSearchCriterion->AddString(_T("Фамилия"));
 	cBoxSearchCriterion->AddString(_T("Телефон"));
 	cBoxSearchCriterion->AddString(_T("Улица"));
 
-	editSearchString = new Edit(clientRect.left + 150, clientRect.top + 10, 100, 30, hWnd, WindowManager::GetHInstance());
+	editSearchString = new Edit(clientRect.left + 150, clientRect.top + 10, 100, 30, hWnd, ID_EDIT_SEARCH, WindowManager::GetHInstance());
 
 	btnSearch = new Button(clientRect.left + 350, clientRect.top + 10, 100, 30, hWnd, ID_BTN_SEARCH, WindowManager::GetHInstance(), _T("Найти"));
 	btnSearch->SetEnabled(false);
 }
 
 void MainWindow::RefrechListView()
-{		
+{			
 	listViewPhonebook->Refresh();
 }
 
 void MainWindow::UdpateWindow()
 {
+	tstring emptyStr(_T(""));
+	bool btnSearchEnabled = false;
+	if ((cBoxSearchCriterion->GetSelectedItem() != emptyStr) && (editSearchString->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	btnSearch->SetEnabled(btnSearchEnabled);
 }
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
@@ -71,31 +78,46 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		lpMMI->ptMinTrackSize.x = 1024;
 		lpMMI->ptMinTrackSize.y = 768;
 	}
+	break;		
 	case WM_COMMAND:
 	{
 		int wmId = LOWORD(wParam);
 		int wmEvent = HIWORD(wParam);
-		// Разобрать выбор в меню:
-		if (wmEvent == BN_CLICKED)
-		{
-			switch (wmId)
-			{
-			case ID_BTN_REFRESH:
-				{
-					mainWindow->RefrechListView();
-					SendMessage(hWnd, WM_SIZE, NULL, NULL);
-				}
-				break;
-			case ID_BTN_SEARCH:
-				{
-
-				}
-				break;
-			}
-		}
-
+		// Разобрать выбор в меню:		
 		switch (wmId)
 		{
+		case ID_BTN_REFRESH:
+		{
+			if (wmEvent == BN_CLICKED)
+			{
+				mainWindow->RefrechListView();
+				SendMessage(hWnd, WM_SIZE, NULL, NULL);
+			}
+		}
+		case ID_BTN_SEARCH:
+		{
+			if (wmEvent == BN_CLICKED)
+			{
+
+			}
+		}
+		break;
+		case ID_EDIT_SEARCH:
+		{
+			if (wmEvent == EN_UPDATE)
+			{
+				mainWindow->UdpateWindow();
+			}				
+		}			
+		break;
+		case ID_COMBOBOX_SEARCH:
+		{						
+			if (wmEvent == CBN_SELCHANGE)
+			{
+				mainWindow->UdpateWindow();
+			}
+		}
+		break;
 		case IDM_ABOUT:
 			DialogManager::GetInstance()->ShowDialog(DIALOG_TYPE::ABOUT, hWnd);
 			break;

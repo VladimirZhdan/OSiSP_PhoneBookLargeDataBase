@@ -6,7 +6,7 @@
 class ComboBox
 {
 public:
-	ComboBox(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst, unsigned int countString);
+	ComboBox(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int cBoxIdentifier, HINSTANCE hInst, unsigned int countString);
 	bool AddString(tstring value);
 	unsigned int GetCountString();
 	tstring GetSelectedItem();

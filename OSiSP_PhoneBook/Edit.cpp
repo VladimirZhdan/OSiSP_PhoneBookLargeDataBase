@@ -2,7 +2,7 @@
 #include "Edit.h"
 
 
-Edit::Edit(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst)
+Edit::Edit(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int editIdentifier, HINSTANCE hInst)
 {
 	hEdit = CreateWindowEx(
 		0,
@@ -12,7 +12,7 @@ Edit::Edit(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hIn
 		nWidth,
 		nHeight,
 		hWndParent,
-		NULL,
+		(HMENU)editIdentifier,
 		hInst,
 		NULL
 	);
