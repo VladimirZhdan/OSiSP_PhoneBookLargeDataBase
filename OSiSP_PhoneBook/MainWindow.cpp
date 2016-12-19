@@ -13,6 +13,10 @@ MainWindow::MainWindow() : Window(MainWndProc, _T("MAINWINDOW"), _T("Телефонный 
 
 MainWindow::~MainWindow()
 {
+	delete(listViewPhonebook);
+	delete(btnRefresh);
+	delete(cBoxSearchCriterion);
+	delete(editSearchString);
 }
 
 void MainWindow::Show()
@@ -38,6 +42,8 @@ void MainWindow::Init()
 	cBoxSearchCriterion->AddString(_T("Фамилия"));
 	cBoxSearchCriterion->AddString(_T("Телефон"));
 	cBoxSearchCriterion->AddString(_T("Улица"));
+
+	editSearchString = new Edit(clientRect.left + 150, clientRect.top + 10, 100, 30, hWnd, WindowManager::GetHInstance());
 }
 
 void MainWindow::RefrechListView()

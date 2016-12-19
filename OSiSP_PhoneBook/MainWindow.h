@@ -7,6 +7,7 @@
 #include "PhonebookListView.h"
 #include "Button.h"
 #include "ComboBox.h"
+#include "Edit.h"
 
 #define ID_BTN_REFRESH 1000
 
@@ -41,5 +42,6 @@ protected:
 	bool needRefresh;
 	Button *btnRefresh;
 	ComboBox *cBoxSearchCriterion;
+	Edit *editSearchString;
 };
 

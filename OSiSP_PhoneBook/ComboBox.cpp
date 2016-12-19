@@ -19,6 +19,8 @@ ComboBox::ComboBox(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINST
 		hInst,
 		NULL
 	);	
+	TCHAR cueBanner[] = _T("Выберите категорию");
+	int result = SendMessage(hComboBox, CB_SETCUEBANNER, 0, (LPARAM)cueBanner);
 }
 
 bool ComboBox::AddString(tstring value)

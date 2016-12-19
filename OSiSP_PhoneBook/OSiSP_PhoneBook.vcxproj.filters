@@ -81,6 +81,9 @@
     <ClInclude Include="ComboBox.h">
       <Filter>Controls</Filter>
     </ClInclude>
+    <ClInclude Include="Edit.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -123,6 +126,9 @@
       <Filter>Controls</Filter>
     </ClCompile>
     <ClCompile Include="ComboBox.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
