@@ -76,7 +76,10 @@
       <Filter>Custom</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboBox.h">
+      <Filter>Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +120,10 @@
       <Filter>Custom</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboBox.cpp">
+      <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

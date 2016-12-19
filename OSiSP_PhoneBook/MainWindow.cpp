@@ -33,6 +33,11 @@ void MainWindow::Init()
 
 	btnRefresh = new Button(clientRect.right - 100, clientRect.top + 10, 100, 30, hWnd, ID_BTN_REFRESH, WindowManager::GetHInstance(), _T("Обновить"));
 	btnRefresh->SetEnabled(true);
+
+	cBoxSearchCriterion = new ComboBox(clientRect.left + 10, clientRect.top + 10, 100, 30, hWnd, WindowManager::GetHInstance(), 3);
+	cBoxSearchCriterion->AddString(_T("Фамилия"));
+	cBoxSearchCriterion->AddString(_T("Телефон"));
+	cBoxSearchCriterion->AddString(_T("Улица"));
 }
 
 void MainWindow::RefrechListView()
