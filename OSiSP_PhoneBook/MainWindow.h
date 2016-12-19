@@ -10,6 +10,7 @@
 #include "Edit.h"
 
 #define ID_BTN_REFRESH 1000
+#define ID_BTN_SEARCH 1001
 
 class MainWindow : public Window
 {
@@ -41,6 +42,7 @@ protected:
 	
 	bool needRefresh;
 	Button *btnRefresh;
+	Button *btnSearch;
 	ComboBox *cBoxSearchCriterion;
 	Edit *editSearchString;
 };

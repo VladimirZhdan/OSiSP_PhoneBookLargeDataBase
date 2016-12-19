@@ -17,6 +17,7 @@ MainWindow::~MainWindow()
 	delete(btnRefresh);
 	delete(cBoxSearchCriterion);
 	delete(editSearchString);
+	delete(btnSearch);
 }
 
 void MainWindow::Show()
@@ -44,6 +45,8 @@ void MainWindow::Init()
 	cBoxSearchCriterion->AddString(_T("Улица"));
 
 	editSearchString = new Edit(clientRect.left + 150, clientRect.top + 10, 100, 30, hWnd, WindowManager::GetHInstance());
+
+	btnSearch = new Button(clientRect.left + 350, clientRect.top + 10, 100, 30, hWnd, ID_BTN_SEARCH, WindowManager::GetHInstance(), _T("Найти"));
 }
 
 void MainWindow::RefrechListView()
@@ -76,6 +79,11 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 				{
 					mainWindow->RefrechListView();
 					SendMessage(hWnd, WM_SIZE, NULL, NULL);
+				}
+				break;
+			case ID_BTN_SEARCH:
+				{
+
 				}
 				break;
 			}
