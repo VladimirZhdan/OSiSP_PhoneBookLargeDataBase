@@ -41,7 +41,7 @@ void MainWindow::Init()
 }
 
 void MainWindow::RefrechListView()
-{
+{	
 	listViewPhonebook->Refresh();
 }
 

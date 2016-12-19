@@ -40,6 +40,24 @@ unsigned int ComboBox::GetCountString()
 	return this->currentCountString;
 }
 
+tstring ComboBox::GetSelectedItem()
+{		
+	unsigned int indexSelectedItem = SendMessage(hComboBox, CB_GETCURSEL, 0, 0);
+	if (indexSelectedItem != CB_ERR)
+	{
+		int lengthSelectedItemString = SendMessage(hComboBox, CB_GETLBTEXTLEN, indexSelectedItem, 0);
+		TCHAR selectedItemString[256];		
+		SendMessage(hComboBox, CB_GETLBTEXT, indexSelectedItem, (LPARAM)selectedItemString);
+		tstring result(selectedItemString);		
+		return result;
+	}
+	else
+	{
+		return nullptr;
+	}
+	
+}
+
 
 ComboBox::~ComboBox()
 {
