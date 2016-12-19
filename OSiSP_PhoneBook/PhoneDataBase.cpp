@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "PhoneDataBase.h"
 
-const tstring PhoneDataBase::libratyPath(_T("OSiSP_PhoneDataBase"));
-
-PhoneDataBase::PhoneDataBase(HWND hWnd)
+PhoneDataBase::PhoneDataBase(HWND hWnd, LPTSTR libraryFilePath)
 {
 	this->hWnd = hWnd;
+	this->libraryFilePath = libraryFilePath;
 	//hLibrary = LoadLibrary(libratyPath.c_str());
 	hLibrary = LoadLibrary(_T("OSiSP_PhoneDataBase"));
 	if (hLibrary)
@@ -25,11 +24,47 @@ bool PhoneDataBase::IsReadyToWork()
 	return isReadyToWork;
 }
 
-std::vector<PhoneBookNode*>* PhoneDataBase::LoadPhoneBookList(LPTSTR fileName)
+std::vector<PhoneBookNode*>* PhoneDataBase::LoadPhoneBookList()
 {
 	if (pLoadPhoneBookList != NULL)
 	{
-		return pLoadPhoneBookList(fileName);
+		return pLoadPhoneBookList(libraryFilePath);
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingSurname(LPTSTR searchSurname)
+{
+	if (pLoadSearchPhoneBookListUsingSurname != NULL)
+	{
+		return pLoadSearchPhoneBookListUsingSurname(searchSurname, libraryFilePath);
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingTelephone(LPTSTR searchTelephone)
+{
+	if (pLoadSearchPhoneBookListUsingTelephone != NULL)
+	{
+		return pLoadSearchPhoneBookListUsingTelephone(searchTelephone, libraryFilePath);
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingStreet(LPTSTR searchStreet)
+{
+	if (pLoadSearchPhoneBookListUsingStreet != NULL)
+	{
+		return pLoadSearchPhoneBookListUsingStreet(searchStreet, libraryFilePath);
 	}
 	else
 	{
@@ -46,6 +81,9 @@ PhoneDataBase::~PhoneDataBase()
 void PhoneDataBase::Init()
 {
 	pLoadPhoneBookList = (PLoadPhoneBookList)ImportFunction(_T("LoadPhoneBookList"));
+	pLoadSearchPhoneBookListUsingSurname = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingSurname"));
+	pLoadSearchPhoneBookListUsingTelephone = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingTelephone"));
+	pLoadSearchPhoneBookListUsingStreet = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingStreet"));
 }
 
 FARPROC PhoneDataBase::ImportFunction(tstring functionName)

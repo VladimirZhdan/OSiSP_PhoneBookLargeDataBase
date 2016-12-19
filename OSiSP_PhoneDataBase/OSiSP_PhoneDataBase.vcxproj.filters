@@ -19,6 +19,9 @@
     <Filter Include="Custom">
       <UniqueIdentifier>{21286ffe-0093-4584-883b-cba6956c6912}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Trie">
+      <UniqueIdentifier>{1c832560-bbde-4d07-9804-25d9b894d7a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -42,6 +45,12 @@
     <ClInclude Include="FileLogic.h">
       <Filter>Custom</Filter>
     </ClInclude>
+    <ClInclude Include="TrieNode.h">
+      <Filter>Trie</Filter>
+    </ClInclude>
+    <ClInclude Include="Trie.h">
+      <Filter>Trie</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -61,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="FileLogic.cpp">
       <Filter>Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="TrieNode.cpp">
+      <Filter>Trie</Filter>
+    </ClCompile>
+    <ClCompile Include="Trie.cpp">
+      <Filter>Trie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

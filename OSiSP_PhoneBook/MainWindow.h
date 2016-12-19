@@ -32,6 +32,7 @@ protected:
 	void Init();	
 	void RefrechListView();
 	void UdpateWindow();
+	void SearchPhoneBookList();
 	//friends procs
 	
 	static LRESULT CALLBACK MainWndProc(

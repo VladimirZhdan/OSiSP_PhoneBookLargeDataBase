@@ -5,13 +5,17 @@
 #include <vector>
 
 typedef std::vector<PhoneBookNode*>* (WINAPI * PLoadPhoneBookList)(LPTSTR fileName);
+typedef std::vector<PhoneBookNode*>* (WINAPI * PLoadSearchPhoneBookList)(LPTSTR searchKey, LPTSTR fileName);
 
 class PhoneDataBase
 {
 public:
-	PhoneDataBase(HWND hWnd);
+	PhoneDataBase(HWND hWnd, LPTSTR libraryFilePath);
 	bool IsReadyToWork();
-	std::vector<PhoneBookNode*>* LoadPhoneBookList(LPTSTR fileName);
+	std::vector<PhoneBookNode*>* LoadPhoneBookList();
+	std::vector<PhoneBookNode*>* LoadSearchPhoneBookListUsingSurname(LPTSTR searchSurname);
+	std::vector<PhoneBookNode*>* LoadSearchPhoneBookListUsingTelephone(LPTSTR searchTelephone);
+	std::vector<PhoneBookNode*>* LoadSearchPhoneBookListUsingStreet(LPTSTR searchStreet);
 	~PhoneDataBase();
 private:
 	//Methods
@@ -23,8 +27,11 @@ private:
 
 	bool isReadyToWork;
 	HWND hWnd;
-	HINSTANCE hLibrary;
-	static const tstring libratyPath;
+	LPTSTR libraryFilePath;
+	HINSTANCE hLibrary;	
 	PLoadPhoneBookList pLoadPhoneBookList;
+	PLoadSearchPhoneBookList pLoadSearchPhoneBookListUsingSurname;
+	PLoadSearchPhoneBookList pLoadSearchPhoneBookListUsingTelephone;
+	PLoadSearchPhoneBookList pLoadSearchPhoneBookListUsingStreet;
 };
 

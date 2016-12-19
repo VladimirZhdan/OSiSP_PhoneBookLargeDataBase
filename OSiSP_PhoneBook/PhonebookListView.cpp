@@ -28,7 +28,8 @@ PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND
 		this->ratioNHeight = 0;
 	}
 	listViewPhonebook = new ListView(X, Y, nWidth, nHeight, hWndParent, hInst);
-	phoneDataBase = new PhoneDataBase(listViewPhonebook->GetHWND());
+	phoneDataBase = new PhoneDataBase(listViewPhonebook->GetHWND(), _T("DataBase.txt"));
+	InitPhoneBookList();
 	InitListLiew();
 }
 
@@ -41,18 +42,38 @@ void PhonebookListView::ChangeSize(int newWidth, int newHeight)
 	listViewPhonebook->ChangeSize(x, y, nWidht, nHeight);
 }
 
-void PhonebookListView::Refresh()
+void PhonebookListView::Refresh(bool isSearchRefresh)
 {
-	delete phoneBookList;
+	if (!isSearchRefresh)
+	{
+		//delete phoneBookList;
+		InitPhoneBookList();
+	}	
 	listViewPhonebook->Clear();
 	InitListLiew(false);
 	InvalidateRect(listViewPhonebook->GetHWND(), NULL, TRUE);
 }
 
+void PhonebookListView::SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKey)
+{
+	//delete phoneBookList;
+	switch (searchType)
+	{
+	case SEARCH_TYPE::SURNAME:
+		phoneBookList = phoneDataBase->LoadSearchPhoneBookListUsingSurname(searchKey);
+		break;
+	case SEARCH_TYPE::TELEPHONE:
+		phoneBookList = phoneDataBase->LoadSearchPhoneBookListUsingTelephone(searchKey);
+		break;
+	case SEARCH_TYPE::STREET:
+		phoneBookList = phoneDataBase->LoadSearchPhoneBookListUsingStreet(searchKey);
+		break;
+	}
+	Refresh(true);
+}
+
 void PhonebookListView::InitListLiew(bool isRefresh)
 {
-	phoneBookList = phoneDataBase->LoadPhoneBookList(_T("DataBase.txt"));
-
 	if (!isRefresh)
 	{
 		//Inserting Columns	
@@ -66,19 +87,27 @@ void PhonebookListView::InitListLiew(bool isRefresh)
 		listViewPhonebook->AddColumn(_T(" вартира"), 0.08);
 	}
 
-	for (int i = 0; i < phoneBookList->size(); ++i)
+	if (phoneBookList != nullptr)
 	{
-		int currentRow;
-		listViewPhonebook->InsertNewRowWithFirstColumn((TCHAR*)(*phoneBookList)[i]->GetPhoneNumber(), currentRow);
+		for (int i = 0; i < phoneBookList->size(); ++i)
+		{
+			int currentRow;
+			listViewPhonebook->InsertNewRowWithFirstColumn((TCHAR*)(*phoneBookList)[i]->GetPhoneNumber(), currentRow);
 
-		listViewPhonebook->SetItem(currentRow, 1, (TCHAR*)(*phoneBookList)[i]->GetSurname());		
-		listViewPhonebook->SetItem(currentRow, 2, (TCHAR*)(*phoneBookList)[i]->GetName());
-		listViewPhonebook->SetItem(currentRow, 3, (TCHAR*)(*phoneBookList)[i]->GetPatronymic());
-		listViewPhonebook->SetItem(currentRow, 4, (TCHAR*)(*phoneBookList)[i]->GetStreet());
-		listViewPhonebook->SetItem(currentRow, 5, (TCHAR*)(*phoneBookList)[i]->GetHouse());
-		listViewPhonebook->SetItem(currentRow, 6, (TCHAR*)(*phoneBookList)[i]->GetBuilding());
-		listViewPhonebook->SetItem(currentRow, 7, (TCHAR*)(*phoneBookList)[i]->GetApartment());
+			listViewPhonebook->SetItem(currentRow, 1, (TCHAR*)(*phoneBookList)[i]->GetSurname());
+			listViewPhonebook->SetItem(currentRow, 2, (TCHAR*)(*phoneBookList)[i]->GetName());
+			listViewPhonebook->SetItem(currentRow, 3, (TCHAR*)(*phoneBookList)[i]->GetPatronymic());
+			listViewPhonebook->SetItem(currentRow, 4, (TCHAR*)(*phoneBookList)[i]->GetStreet());
+			listViewPhonebook->SetItem(currentRow, 5, (TCHAR*)(*phoneBookList)[i]->GetHouse());
+			listViewPhonebook->SetItem(currentRow, 6, (TCHAR*)(*phoneBookList)[i]->GetBuilding());
+			listViewPhonebook->SetItem(currentRow, 7, (TCHAR*)(*phoneBookList)[i]->GetApartment());
+		}
 	}
+}
+
+void PhonebookListView::InitPhoneBookList()
+{
+	phoneBookList = phoneDataBase->LoadPhoneBookList();
 }
 
 PhonebookListView::~PhonebookListView()

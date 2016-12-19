@@ -66,6 +66,24 @@ void MainWindow::UdpateWindow()
 	btnSearch->SetEnabled(btnSearchEnabled);
 }
 
+void MainWindow::SearchPhoneBookList()
+{
+	tstring searchType = cBoxSearchCriterion->GetSelectedItem();
+	tstring searchKey = editSearchString->GetText();
+	if (searchType == tstring(_T("Фамилия")))
+	{		
+		listViewPhonebook->SearchAndRefresh(SEARCH_TYPE::SURNAME, (LPTSTR)searchKey.c_str());
+	}
+	if (searchType == tstring(_T("Телефон")))
+	{
+		listViewPhonebook->SearchAndRefresh(SEARCH_TYPE::TELEPHONE, (LPTSTR)searchKey.c_str());
+	}
+	if (searchType == tstring(_T("Улица")))
+	{
+		listViewPhonebook->SearchAndRefresh(SEARCH_TYPE::STREET, (LPTSTR)searchKey.c_str());
+	}
+}
+
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
 
 LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -94,11 +112,13 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 				SendMessage(hWnd, WM_SIZE, NULL, NULL);
 			}
 		}
+		break;
 		case ID_BTN_SEARCH:
 		{
 			if (wmEvent == BN_CLICKED)
 			{
-
+				mainWindow->SearchPhoneBookList();
+				SendMessage(hWnd, WM_SIZE, NULL, NULL);
 			}
 		}
 		break;
