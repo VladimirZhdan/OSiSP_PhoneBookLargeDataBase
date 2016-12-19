@@ -55,9 +55,8 @@ tstring ComboBox::GetSelectedItem()
 	}
 	else
 	{
-		return nullptr;
+		return tstring(_T(""));
 	}
-	
 }
 
 

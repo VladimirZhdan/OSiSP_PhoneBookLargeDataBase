@@ -47,11 +47,16 @@ void MainWindow::Init()
 	editSearchString = new Edit(clientRect.left + 150, clientRect.top + 10, 100, 30, hWnd, WindowManager::GetHInstance());
 
 	btnSearch = new Button(clientRect.left + 350, clientRect.top + 10, 100, 30, hWnd, ID_BTN_SEARCH, WindowManager::GetHInstance(), _T("Найти"));
+	btnSearch->SetEnabled(false);
 }
 
 void MainWindow::RefrechListView()
-{	
+{		
 	listViewPhonebook->Refresh();
+}
+
+void MainWindow::UdpateWindow()
+{
 }
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));

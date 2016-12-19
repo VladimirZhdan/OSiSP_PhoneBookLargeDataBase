@@ -27,8 +27,9 @@ void Edit::SetText(tstring value)
 
 tstring Edit::GetText()
 {
-	SendMessage(hEdit, WM_GETTEXT, NULL, (LPARAM)NULL);
-	return tstring();
+	TCHAR text[256];
+	SendMessage(hEdit, WM_GETTEXT, 256, (LPARAM)text);
+	return tstring(text);
 }
 
 Edit::~Edit()

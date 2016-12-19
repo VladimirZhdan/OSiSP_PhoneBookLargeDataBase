@@ -29,6 +29,7 @@ protected:
 	
 	void Init();	
 	void RefrechListView();
+	void UdpateWindow();
 	//friends procs
 	
 	static LRESULT CALLBACK MainWndProc(
