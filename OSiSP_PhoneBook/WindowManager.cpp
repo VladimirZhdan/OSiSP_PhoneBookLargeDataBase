@@ -3,6 +3,7 @@
 
 #include "Window.h"
 #include "MainWindow.h"
+#include "EditingWindow.h"
 
 HINSTANCE WindowManager::hInstance;
 int WindowManager::nCmdShow;
@@ -39,6 +40,12 @@ Window * WindowManager::GetWindow(WINDOW_TYPE wndType)
 			mainWindow = new MainWindow();
 		}
 		return mainWindow;	
+	case WINDOW_TYPE::EDITING:
+		if (editingWindow == NULL && (currentEditingPhoneBookNode != NULL))
+		{
+			editingWindow = new EditingWindow(currentEditingPhoneBookNode);
+		}
+		return editingWindow;
 	default:
 		return NULL;
 	}
@@ -56,6 +63,19 @@ void WindowManager::ShowWindow(WINDOW_TYPE wndType, bool isCloseActive)
 	activeWindowType = wndType;
 }
 
+void WindowManager::SetEditingPhoneBookNode(PhoneBookNode * editingPhoneBookNode)
+{
+	this->currentEditingPhoneBookNode = editingPhoneBookNode;	
+}
+
+void WindowManager::SaveEditedPhoneBookNode(PhoneBookNode * value)
+{
+	if (mainWindow != NULL)
+	{
+		mainWindow->SaveEditedPhoneBookNode(value);
+	}
+}
+
 void WindowManager::CloseActiveWindow()
 {
 	if ((activeWindow != NULL) && (activeWindowType != WINDOW_TYPE::NONE))
@@ -68,6 +88,10 @@ void WindowManager::CloseActiveWindow()
 			delete(mainWindow);
 			mainWindow = NULL;
 			break;		
+		case WINDOW_TYPE::EDITING:
+			delete(editingWindow);
+			editingWindow = NULL;
+			break;
 		default:
 			break;
 		}

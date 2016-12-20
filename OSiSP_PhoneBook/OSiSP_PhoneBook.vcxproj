@@ -153,6 +153,8 @@
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="Edit.h" />
+    <ClInclude Include="EditingWindow.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="ListView.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="OSiSP_PhoneBook.h" />
@@ -172,6 +174,8 @@
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="Edit.cpp" />
+    <ClCompile Include="EditingWindow.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="ListView.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="OSiSP_PhoneBook.cpp" />

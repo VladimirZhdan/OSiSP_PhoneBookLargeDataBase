@@ -84,6 +84,12 @@
     <ClInclude Include="Edit.h">
       <Filter>Controls</Filter>
     </ClInclude>
+    <ClInclude Include="EditingWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -130,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="Edit.cpp">
       <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="EditingWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

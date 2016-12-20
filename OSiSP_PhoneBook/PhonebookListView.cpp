@@ -72,6 +72,19 @@ void PhonebookListView::SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKe
 	Refresh(true);
 }
 
+PhoneBookNode * PhonebookListView::GetSelectedItem()
+{
+	int selectedRow = listViewPhonebook->GetSelectedRow();
+	if (selectedRow != -1)
+	{
+		return (*phoneBookList)[selectedRow];
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
 void PhonebookListView::EditSelectedRow()
 {
 	int selectedRow = listViewPhonebook->GetSelectedRow();

@@ -22,11 +22,16 @@ public:
 	~MainWindow();
 	void Show();
 	void Hide();	
+	void SaveEditedPhoneBookNode(PhoneBookNode *value);
 protected:
 	//controls	
 	
 	HMENU hMenu;
 	PhonebookListView *listViewPhonebook;
+	Button *btnRefresh;
+	Button *btnSearch;
+	ComboBox *cBoxSearchCriterion;
+	Edit *editSearchString;
 
 	//methods
 	
@@ -34,6 +39,7 @@ protected:
 	void RefrechListView();
 	void UdpateWindow();
 	void SearchPhoneBookList();
+	void OpenEditingWindow();
 
 	//friends procs
 	
@@ -47,9 +53,5 @@ protected:
 	//fields	
 	
 	bool needRefresh;
-	Button *btnRefresh;
-	Button *btnSearch;
-	ComboBox *cBoxSearchCriterion;
-	Edit *editSearchString;
 };
 

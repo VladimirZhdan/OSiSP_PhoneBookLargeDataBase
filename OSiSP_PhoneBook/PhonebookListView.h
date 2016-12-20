@@ -18,6 +18,8 @@ public:
 	void ChangeSize(int newWidth, int newHeight);
 	void Refresh(bool isSearchRefresh = false);
 	void SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKey);
+	PhoneBookNode *GetSelectedItem();
+
 	void EditSelectedRow();
 	void EndEditSelectedRow();
 	~PhonebookListView();
