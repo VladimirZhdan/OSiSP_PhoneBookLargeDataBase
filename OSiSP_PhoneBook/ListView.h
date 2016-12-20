@@ -6,7 +6,7 @@
 class ListView
 {
 public:
-	ListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst);
+	ListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst);
 	HWND GetHWND();		
 	void AddColumn(TCHAR *nameColumn, double columnRatio);
 	void InsertNewRowWithFirstColumn(TCHAR* firstColumnValue, int &rowIndex);
@@ -14,6 +14,9 @@ public:
 	int GetCountColumns();
 	void ChangeSize(int newX, int newY, int newWidth, int newHeight);
 	int GetSelectedRow();
+	void EditLabel(int index);
+	void CancelEditingLabel();
+	void CancelSelection();
 	void Clear();
 	~ListView();
 private:

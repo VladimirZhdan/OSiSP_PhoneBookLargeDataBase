@@ -2,7 +2,7 @@
 #include "PhonebookListView.h"
 
 
-PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst, RECT windowRect)
+PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst, RECT windowRect)
 {
 	int windowWidth = windowRect.right - windowRect.left;
 	int windowHeight = windowRect.bottom - windowRect.top;
@@ -27,7 +27,7 @@ PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND
 		this->ratioY = 0;
 		this->ratioNHeight = 0;
 	}
-	listViewPhonebook = new ListView(X, Y, nWidth, nHeight, hWndParent, hInst);
+	listViewPhonebook = new ListView(X, Y, nWidth, nHeight, hWndParent, listViewIdentifier, hInst);
 	phoneDataBase = new PhoneDataBase(listViewPhonebook->GetHWND(), _T("DataBase.txt"));
 	InitPhoneBookList();
 	InitListLiew();
@@ -70,6 +70,20 @@ void PhonebookListView::SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKe
 		break;
 	}
 	Refresh(true);
+}
+
+void PhonebookListView::EditSelectedRow()
+{
+	int selectedRow = listViewPhonebook->GetSelectedRow();
+	if (selectedRow != -1)
+	{
+		listViewPhonebook->EditLabel(selectedRow);
+	}
+}
+
+void PhonebookListView::EndEditSelectedRow()
+{
+	listViewPhonebook->CancelSelection();
 }
 
 void PhonebookListView::InitListLiew(bool isRefresh)

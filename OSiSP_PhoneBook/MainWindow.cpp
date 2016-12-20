@@ -34,7 +34,7 @@ void MainWindow::Init()
 {
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
- 	listViewPhonebook = new PhonebookListView(0, 50, clientRect.right, clientRect.bottom - 50, hWnd, WindowManager::GetHInstance(), clientRect);
+ 	listViewPhonebook = new PhonebookListView(0, 50, clientRect.right, clientRect.bottom - 50, hWnd, ID_LISTVIEW_PHONEBOOK, WindowManager::GetHInstance(), clientRect);
 
 	btnRefresh = new Button(clientRect.right - 100, clientRect.top + 10, 100, 30, hWnd, ID_BTN_REFRESH, WindowManager::GetHInstance(), _T("Обновить"));
 	btnRefresh->SetEnabled(true);
@@ -84,6 +84,17 @@ void MainWindow::SearchPhoneBookList()
 	}
 }
 
+void MainWindow::EditSelectedListViewRow()
+{
+	listViewPhonebook->EditSelectedRow();
+}
+
+void MainWindow::EndEditSelectedListViewRow()
+{
+	//SetNewValue
+	listViewPhonebook->EndEditSelectedRow();
+}
+
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
 
 LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -104,6 +115,14 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		// Разобрать выбор в меню:		
 		switch (wmId)
 		{
+		case ID_LISTVIEW_PHONEBOOK:
+		{
+			if (wmEvent == LVN_ENDLABELEDIT)
+			{
+				int i = 0;
+			}		
+		}
+		break;
 		case ID_BTN_REFRESH:
 		{
 			if (wmEvent == BN_CLICKED)
@@ -167,6 +186,19 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		EndPaint(hWnd, &ps);
 	}
 	break;
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->code)
+		{
+		case NM_DBLCLK:
+		{			
+			// Создать новое окно редактирования записи			
+		}
+		break;		
+		break;		
+		default:
+			break;
+		}
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

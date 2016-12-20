@@ -14,10 +14,12 @@ enum class SEARCH_TYPE
 class PhonebookListView
 {
 public:
-	PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst, RECT windowRect);
+	PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst, RECT windowRect);
 	void ChangeSize(int newWidth, int newHeight);
 	void Refresh(bool isSearchRefresh = false);
 	void SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKey);
+	void EditSelectedRow();
+	void EndEditSelectedRow();
 	~PhonebookListView();
 
 private:	

@@ -1,17 +1,20 @@
 #include "stdafx.h"
 #include "ListView.h"
 
-ListView::ListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, HINSTANCE hInst)
-{
+ListView::ListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst)
+{	
+	//INITCOMMONCONTROLSEX icex;           // Structure for control initialization.
+	//icex.dwICC = ICC_LISTVIEW_CLASSES;
+	//InitCommonControlsEx(&icex);
 	hListView = CreateWindowEx(
 		0,
-		(LPCWSTR)WC_LISTVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_BORDER | LVS_SHOWSELALWAYS | LVS_REPORT | LVS_SINGLESEL,
+		(LPCWSTR)WC_LISTVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_BORDER | LVS_SHOWSELALWAYS | LVS_SINGLESEL | LVS_REPORT | LVS_EDITLABELS,
 		X,
 		Y,
 		nWidth,
 		nHeight,
 		hWndParent,
-		NULL,
+		(HMENU)listViewIdentifier,
 		hInst,
 		NULL
 	);
@@ -85,8 +88,23 @@ void ListView::ChangeSize(int newX, int newY, int newWidth, int newHeight)
 int ListView::GetSelectedRow()
 {
 	int selectedItemNumber;
-	selectedItemNumber = SendMessage(hListView, LVM_GETSELECTIONMARK, NULL, NULL);
+	selectedItemNumber = SendMessage(hListView, LVM_GETSELECTIONMARK, NULL, NULL);	
 	return selectedItemNumber;
+}
+
+void ListView::EditLabel(int index)
+{
+	SendMessage(hListView, LVM_EDITLABEL, index, 0);
+}
+
+void ListView::CancelEditingLabel()
+{
+	SendMessage(hListView, LVM_EDITLABEL, -1, 0);
+}
+
+void ListView::CancelSelection()
+{
+	SendMessage(hListView, LVM_SETSELECTIONMARK, 0, -1);	
 }
 
 void ListView::Clear()

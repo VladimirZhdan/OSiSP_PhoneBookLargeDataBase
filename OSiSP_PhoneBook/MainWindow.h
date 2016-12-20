@@ -13,6 +13,7 @@
 #define ID_BTN_SEARCH 1001
 #define ID_EDIT_SEARCH 1021
 #define ID_COMBOBOX_SEARCH 1007
+#define ID_LISTVIEW_PHONEBOOK 1010
 
 class MainWindow : public Window
 {
@@ -33,6 +34,7 @@ protected:
 	void RefrechListView();
 	void UdpateWindow();
 	void SearchPhoneBookList();
+
 	//friends procs
 	
 	static LRESULT CALLBACK MainWndProc(
