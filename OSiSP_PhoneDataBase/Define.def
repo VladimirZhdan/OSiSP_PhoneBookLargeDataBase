@@ -1,7 +1,5 @@
 LIBRARY	PhoneDataBase
 EXPORTS
-	LoadPhoneBookList							@1
-	LoadSearchPhoneBookListUsingSurname			@2
-	LoadSearchPhoneBookListUsingTelephone		@3
-	LoadSearchPhoneBookListUsingStreet			@4
-	EditPhoneBookNode							@5
+	LoadCountOfPhoneBookNode							@1
+	LoadPhoneBookNode									@2
+	LoadSearchPhoneBookList								@3

@@ -7,116 +7,41 @@
 
 //own files
 #include "PhoneBookNode.h"
-#include "FileLogic.h"
-#include "Trie.h"
+#include "FileMappingLogic.h"
 
 bool isLibraryInit = false;
-Trie *surnameTrie;
-Trie *telephoneTrie;
-Trie *streetTrie;
-std::vector<PhoneBookNode*>* phoneBookList;
+FileMappingLogic *fileMappingLogic;
 
-void WINAPI InitializationLibrary(LPTSTR fileName, bool isUpdate = false);
-void WINAPI InitializationIndexStructures(bool isUpdate = false);
-void WINAPI DeleteTrie(Trie *desc);
-void WINAPI ClearPhoneBookList();
+void WINAPI InitializationLibrary(LPTSTR fileName);
 
-std::vector<PhoneBookNode*>* WINAPI LoadPhoneBookList(LPTSTR fileName)
+unsigned long WINAPI LoadCountOfPhoneBookNode(LPTSTR fileName)
 {
 	if (!isLibraryInit)
 	{
 		InitializationLibrary(fileName);
-	}
-	else
-	{
-		InitializationLibrary(fileName, true);
-	}
-	return phoneBookList;
+	}	
+	return fileMappingLogic->GetCountOfPhoneBookNode();
 }
 
-void WINAPI InitializationLibrary(LPTSTR fileName, bool isUpdate)
+void WINAPI InitializationLibrary(LPTSTR fileName)
 {
-	if (isUpdate)
-	{
-		ClearPhoneBookList();
-	}
-	phoneBookList = FileLogic::GetPhoneBookList(fileName);
-	InitializationIndexStructures(isUpdate);
+	fileMappingLogic = new FileMappingLogic(fileName);
 	isLibraryInit = true;
 }
 
-void WINAPI InitializationIndexStructures(bool isUpdate)
+PhoneBookNode* WINAPI LoadPhoneBookNode(unsigned long index)
 {
-	if (isUpdate)
+	if (isLibraryInit)
 	{
-		DeleteTrie(surnameTrie);
-		DeleteTrie(telephoneTrie);
-		DeleteTrie(streetTrie);
+		return fileMappingLogic->GetPhoneBookNode(index);
 	}
-	surnameTrie = new Trie(TRIE_TYPE::SURNAME, phoneBookList);
-	telephoneTrie = new Trie(TRIE_TYPE::TELEPHONE, phoneBookList);
-	streetTrie = new Trie(TRIE_TYPE::STREET, phoneBookList);
-}
-
-void WINAPI DeleteTrie(Trie *desc)
-{
-	if (desc != NULL)
+	else
 	{
-		delete(desc);
+		return nullptr;
 	}
 }
 
-std::vector<PhoneBookNode*>* WINAPI LoadSearchPhoneBookListUsingSurname(LPTSTR surname, LPTSTR libraryFilePath)
+std::vector<PhoneBookNode*>* WINAPI LoadSearchPhoneBookList(PhoneBookNode *searchedPhoneBookNode)
 {
-	if (!isLibraryInit)
-	{
-		InitializationLibrary(libraryFilePath);
-	}
-	return surnameTrie->GetSearchPhoneBookList(surname);
-}
-
-std::vector<PhoneBookNode*>* WINAPI LoadSearchPhoneBookListUsingTelephone(LPTSTR telephone, LPTSTR libraryFilePath)
-{
-	if (!isLibraryInit)
-	{
-		InitializationLibrary(libraryFilePath);
-	}
-	return telephoneTrie->GetSearchPhoneBookList(telephone);
-}
-
-std::vector<PhoneBookNode*>* WINAPI LoadSearchPhoneBookListUsingStreet(LPTSTR street, LPTSTR libraryFileName)
-{
-	if (!isLibraryInit)
-	{
-		InitializationLibrary(libraryFileName);
-	}
-	return streetTrie->GetSearchPhoneBookList(street);
-}
-
-void WINAPI EditPhoneBookNode(PhoneBookNode *phoneBookNode, LPTSTR libraryFileName)
-{
-	bool isFind = false;
-	for (int i = 0; (i < phoneBookList->size()) && (!isFind); ++i)
-	{
-		if ((*phoneBookList)[i]->number == phoneBookNode->number)
-		{
-			(*phoneBookList)[i] = phoneBookNode;
-			isFind = true;
-		}
-	}
-	if (isFind)
-	{
-		FileLogic::WritePhoneBookList(libraryFileName, phoneBookList);
-		InitializationIndexStructures(true);
-	}
-}
-
-void WINAPI ClearPhoneBookList()
-{
-	for (int i = 0; i < phoneBookList->size(); ++i)
-	{
-		delete((*phoneBookList)[i]);
-	}
-	delete phoneBookList;
-	phoneBookList = NULL;
+	return fileMappingLogic->GetSearchPhoneBookList(searchedPhoneBookNode);
 }

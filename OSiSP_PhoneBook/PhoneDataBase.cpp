@@ -5,7 +5,7 @@ PhoneDataBase::PhoneDataBase(HWND hWnd, LPTSTR libraryFilePath)
 {
 	this->hWnd = hWnd;
 	this->libraryFilePath = libraryFilePath;	
-	hLibrary = LoadLibrary(_T("OSiSP_PhoneDataBase"));
+	hLibrary = LoadLibrary(_T("OSiSP_PhoneDataBaseLarge"));
 	if (hLibrary)
 	{
 		isReadyToWork = true;
@@ -23,11 +23,23 @@ bool PhoneDataBase::IsReadyToWork()
 	return isReadyToWork;
 }
 
-std::vector<PhoneBookNode*>* PhoneDataBase::LoadPhoneBookList()
+unsigned long PhoneDataBase::LoadCountOfPhoneBookNode()
 {
-	if (pLoadPhoneBookList != NULL)
+	if (pLoadCountOfPhoneBookNode != NULL)
 	{
-		return pLoadPhoneBookList(libraryFilePath);
+		return pLoadCountOfPhoneBookNode(libraryFilePath);
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+PhoneBookNode * PhoneDataBase::LoadPhoneBookNode(unsigned long index)
+{
+	if (pLoadPhoneBookNode != NULL)
+	{
+		return pLoadPhoneBookNode(index);
 	}
 	else
 	{
@@ -35,50 +47,17 @@ std::vector<PhoneBookNode*>* PhoneDataBase::LoadPhoneBookList()
 	}
 }
 
-std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingSurname(LPTSTR searchSurname)
+std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookList(PhoneBookNode * searchedPhoneBookNode)
 {
-	if (pLoadSearchPhoneBookListUsingSurname != NULL)
+	if (pLoadSearchPhoneBookList != NULL)
 	{
-		return pLoadSearchPhoneBookListUsingSurname(searchSurname, libraryFilePath);
+		return pLoadSearchPhoneBookList(searchedPhoneBookNode);
 	}
 	else
 	{
 		return nullptr;
 	}
 }
-
-std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingTelephone(LPTSTR searchTelephone)
-{
-	if (pLoadSearchPhoneBookListUsingTelephone != NULL)
-	{
-		return pLoadSearchPhoneBookListUsingTelephone(searchTelephone, libraryFilePath);
-	}
-	else
-	{
-		return nullptr;
-	}
-}
-
-std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingStreet(LPTSTR searchStreet)
-{
-	if (pLoadSearchPhoneBookListUsingStreet != NULL)
-	{
-		return pLoadSearchPhoneBookListUsingStreet(searchStreet, libraryFilePath);
-	}
-	else
-	{
-		return nullptr;
-	}
-}
-
-void PhoneDataBase::EditPhoneBookNode(PhoneBookNode * phoneBookNode)
-{
-	if (pEditPhoneBookNode != NULL)
-	{
-		pEditPhoneBookNode(phoneBookNode, libraryFilePath);
-	}	
-}
-
 
 PhoneDataBase::~PhoneDataBase()
 {
@@ -87,11 +66,9 @@ PhoneDataBase::~PhoneDataBase()
 
 void PhoneDataBase::Init()
 {
-	pLoadPhoneBookList = (PLoadPhoneBookList)ImportFunction(_T("LoadPhoneBookList"));
-	pLoadSearchPhoneBookListUsingSurname = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingSurname"));
-	pLoadSearchPhoneBookListUsingTelephone = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingTelephone"));
-	pLoadSearchPhoneBookListUsingStreet = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingStreet"));
-	pEditPhoneBookNode = (PEditPhoneBookNode)ImportFunction(_T("EditPhoneBookNode"));
+	pLoadCountOfPhoneBookNode = (PLoadCountOfPhoneBookNode)ImportFunction(_T("LoadCountOfPhoneBookNode"));
+	pLoadPhoneBookNode = (PLoadPhoneBookNode)ImportFunction(_T("LoadPhoneBookNode"));
+	pLoadSearchPhoneBookList = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookList"));
 }
 
 FARPROC PhoneDataBase::ImportFunction(tstring functionName)

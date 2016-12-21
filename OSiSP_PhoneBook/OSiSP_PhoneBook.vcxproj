@@ -23,6 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>OSiSP_PhoneBook</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>OSiSP_PhoneBookLarge</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -153,7 +154,6 @@
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="Edit.h" />
-    <ClInclude Include="EditingWindow.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ListView.h" />
     <ClInclude Include="MainWindow.h" />
@@ -174,7 +174,6 @@
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="Edit.cpp" />
-    <ClCompile Include="EditingWindow.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="ListView.cpp" />
     <ClCompile Include="MainWindow.cpp" />

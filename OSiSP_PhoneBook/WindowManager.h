@@ -2,11 +2,10 @@
 
 #include "PhoneBookNode.h"
 
-enum class WINDOW_TYPE { NONE, MAIN, EDITING };
+enum class WINDOW_TYPE { NONE, MAIN };
 
 class Window;
 class MainWindow;
-class EditingWindow;
 
 class WindowManager
 {
@@ -28,18 +27,14 @@ public:
 	}
 	static WindowManager* GetInstance();
 	Window* GetWindow(WINDOW_TYPE wndType);
-	void ShowWindow(WINDOW_TYPE wndType, bool isCloseActive = false);	
-	void SetEditingPhoneBookNode(PhoneBookNode *editingPhoneBookNode);
-	void SaveEditedPhoneBookNode(PhoneBookNode *value);
+	void ShowWindow(WINDOW_TYPE wndType, bool isCloseActive = false);		
 private:
 	//fields
 	static HINSTANCE hInstance;
 	static int nCmdShow;
-	MainWindow *mainWindow;	
-	EditingWindow *editingWindow;
+	MainWindow *mainWindow;		
 	Window *activeWindow;
 	WINDOW_TYPE activeWindowType;
-	PhoneBookNode *currentEditingPhoneBookNode;
 
 	//methods
 	void CloseActiveWindow();

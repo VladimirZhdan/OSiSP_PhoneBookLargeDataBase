@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "PhonebookListView.h"
 
-
-PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst, RECT windowRect)
-{
+PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst, RECT windowRect) : countNodesOnPage(15)
+{	
 	int windowWidth = windowRect.right - windowRect.left;
 	int windowHeight = windowRect.bottom - windowRect.top;
 	if (windowWidth != 0)
@@ -45,8 +44,7 @@ void PhonebookListView::ChangeSize(int newWidth, int newHeight)
 void PhonebookListView::Refresh(bool isSearchRefresh)
 {
 	if (!isSearchRefresh)
-	{
-		//delete phoneBookList;
+	{		
 		InitPhoneBookList();
 	}	
 	listViewPhonebook->Clear();
@@ -54,40 +52,11 @@ void PhonebookListView::Refresh(bool isSearchRefresh)
 	InvalidateRect(listViewPhonebook->GetHWND(), NULL, TRUE);
 }
 
-void PhonebookListView::SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKey)
-{
-	//delete phoneBookList;
-	switch (searchType)
-	{
-	case SEARCH_TYPE::SURNAME:
-		phoneBookList = phoneDataBase->LoadSearchPhoneBookListUsingSurname(searchKey);
-		break;
-	case SEARCH_TYPE::TELEPHONE:
-		phoneBookList = phoneDataBase->LoadSearchPhoneBookListUsingTelephone(searchKey);
-		break;
-	case SEARCH_TYPE::STREET:
-		phoneBookList = phoneDataBase->LoadSearchPhoneBookListUsingStreet(searchKey);
-		break;
-	}
+void PhonebookListView::SearchAndRefresh(PhoneBookNode *searchedPhoneBookNode)
+{	
+	ClearPhoneBookList();
+	phoneBookList = phoneDataBase->LoadSearchPhoneBookList(searchedPhoneBookNode);
 	Refresh(true);
-}
-
-PhoneBookNode * PhonebookListView::GetSelectedItem()
-{
-	int selectedRow = listViewPhonebook->GetSelectedRow();
-	if (selectedRow != -1)
-	{
-		return (*phoneBookList)[selectedRow];
-	}
-	else
-	{
-		return nullptr;
-	}
-}
-
-void PhonebookListView::SaveEditedPhoneBookNode(PhoneBookNode * value)
-{
-	phoneDataBase->EditPhoneBookNode(value);	
 }
 
 void PhonebookListView::EditSelectedRow()
@@ -139,14 +108,34 @@ void PhonebookListView::InitListLiew(bool isRefresh)
 
 void PhonebookListView::InitPhoneBookList()
 {
-	phoneBookList = phoneDataBase->LoadPhoneBookList();
+	ClearPhoneBookList();
+	unsigned long countOfPhoneBookNode = phoneDataBase->LoadCountOfPhoneBookNode();
+	phoneBookList = new std::vector<PhoneBookNode*>();
+	for (int i = 1; i <= countOfPhoneBookNode; ++i)
+	{
+		PhoneBookNode *phoneBookNode = phoneDataBase->LoadPhoneBookNode(i);
+		phoneBookList->push_back(phoneBookNode);
+	}	
+}
+
+void PhonebookListView::ClearPhoneBookList()
+{
+	if (phoneBookList != NULL)
+	{
+		for (int i = 0; i < phoneBookList->size(); ++i)
+		{
+			delete((*phoneBookList)[i]);
+		}
+		delete phoneBookList;
+		phoneBookList = NULL;
+	}
 }
 
 PhonebookListView::~PhonebookListView()
 {
 	delete listViewPhonebook;
 	delete phoneDataBase;
-	delete phoneBookList;
+	ClearPhoneBookList();
 }
 
 

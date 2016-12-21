@@ -17,9 +17,7 @@ public:
 	PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst, RECT windowRect);
 	void ChangeSize(int newWidth, int newHeight);
 	void Refresh(bool isSearchRefresh = false);
-	void SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKey);
-	PhoneBookNode *GetSelectedItem();
-	void SaveEditedPhoneBookNode(PhoneBookNode *value);
+	void SearchAndRefresh(PhoneBookNode *searchedPhoneBookNode);	
 
 	void EditSelectedRow();
 	void EndEditSelectedRow();
@@ -30,6 +28,7 @@ private:
 
 	void InitListLiew(bool isRefresh = false);	
 	void InitPhoneBookList();
+	void ClearPhoneBookList();
 
 	//fields
 
@@ -40,6 +39,7 @@ private:
 	double ratioNHeight;
 	PhoneDataBase *phoneDataBase;
 	std::vector<PhoneBookNode*>* phoneBookList;
+	const int countNodesOnPage;
 
 };
 

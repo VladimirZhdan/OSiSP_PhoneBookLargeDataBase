@@ -14,10 +14,26 @@ MainWindow::MainWindow() : Window(MainWndProc, _T("MAINWINDOW"), _T("Телефонный 
 MainWindow::~MainWindow()
 {
 	delete(listViewPhonebook);
-	delete(btnRefresh);
-	delete(cBoxSearchCriterion);
-	delete(editSearchString);
+	delete(btnRefresh);		
 	delete(btnSearch);
+
+	delete(labelPhoneNumber);
+	delete(labelSurname);
+	delete(labelName);
+	delete(labelPatronymic);
+	delete(labelStreet);
+	delete(labelHouse);
+	delete(labelBuilding);
+	delete(labelApartment);
+
+	delete(editPhoneNumberSearch);
+	delete(editSurnameSearch);
+	delete(editNameSearch);
+	delete(editPatronymicSearch);
+	delete(editStreetSearch);
+	delete(editHouseSearch);
+	delete(editBuildingSearch);
+	delete(editApartmentSearch);
 }
 
 void MainWindow::Show()
@@ -30,30 +46,34 @@ void MainWindow::Hide()
 	Window::Hide();
 }
 
-void MainWindow::SaveEditedPhoneBookNode(PhoneBookNode *value)
-{
-	listViewPhonebook->SaveEditedPhoneBookNode(value);
-	listViewPhonebook->Refresh();
-	SendMessage(hWnd, WM_SIZE, NULL, NULL);
-}
-
 void MainWindow::Init()
 {
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
- 	listViewPhonebook = new PhonebookListView(0, 50, clientRect.right, clientRect.bottom - 50, hWnd, ID_LISTVIEW_PHONEBOOK, WindowManager::GetHInstance(), clientRect);
+ 	listViewPhonebook = new PhonebookListView(0, 160, clientRect.right, clientRect.bottom - 50, hWnd, ID_LISTVIEW_PHONEBOOK, WindowManager::GetHInstance(), clientRect);
 
 	btnRefresh = new Button(clientRect.right - 100, clientRect.top + 10, 100, 30, hWnd, ID_BTN_REFRESH, WindowManager::GetHInstance(), _T("Обновить"));
 	btnRefresh->SetEnabled(true);
 
-	cBoxSearchCriterion = new ComboBox(clientRect.left + 10, clientRect.top + 10, 100, 30, hWnd, ID_COMBOBOX_SEARCH, WindowManager::GetHInstance(), 3);
-	cBoxSearchCriterion->AddString(_T("Фамилия"));
-	cBoxSearchCriterion->AddString(_T("Телефон"));
-	cBoxSearchCriterion->AddString(_T("Улица"));
+	labelPhoneNumber = new Label(clientRect.left + 10, clientRect.top + 10, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Телефон"));
+	labelSurname = new Label(clientRect.left + 10, clientRect.top + 50, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Фамилия"));
+	labelName = new Label(clientRect.left + 10, clientRect.top + 90, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Имя"));
+	labelPatronymic = new Label(clientRect.left + 10, clientRect.top + 130, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Отчество"));
+	labelStreet = new Label(clientRect.left + 300, clientRect.top + 10, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Улица"));
+	labelHouse = new Label(clientRect.left + 300, clientRect.top + 50, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Дом"));
+	labelBuilding = new Label(clientRect.left + 300, clientRect.top + 90, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Корпус"));
+	labelApartment = new Label(clientRect.left + 300, clientRect.top + 130, 100, 30, hWnd, 0, WindowManager::GetHInstance(), _T("Квартира"));
 
-	editSearchString = new Edit(clientRect.left + 150, clientRect.top + 10, 100, 30, hWnd, ID_EDIT_SEARCH, WindowManager::GetHInstance());
+	editPhoneNumberSearch = new Edit(clientRect.left + 120, clientRect.top + 10, 150, 30, hWnd, ID_EDIT_PHONENUMBER, WindowManager::GetHInstance());
+	editSurnameSearch = new Edit(clientRect.left + 120, clientRect.top + 50, 150, 30, hWnd, ID_EDIT_SURNAME, WindowManager::GetHInstance());
+	editNameSearch = new Edit(clientRect.left + 120, clientRect.top + 90, 150, 30, hWnd, ID_EDIT_NAME, WindowManager::GetHInstance());
+	editPatronymicSearch = new Edit(clientRect.left + 120, clientRect.top + 130, 150, 30, hWnd, ID_EDIT_PATRONYMIC, WindowManager::GetHInstance());
+	editStreetSearch = new Edit(clientRect.left + 410, clientRect.top + 10, 150, 30, hWnd, ID_EDIT_STREET, WindowManager::GetHInstance());
+	editHouseSearch = new Edit(clientRect.left + 410, clientRect.top + 50, 150, 30, hWnd, ID_EDIT_HOUSE, WindowManager::GetHInstance());
+	editBuildingSearch = new Edit(clientRect.left + 410, clientRect.top + 90, 150, 30, hWnd, ID_EDIT_BUILDING, WindowManager::GetHInstance());
+	editApartmentSearch = new Edit(clientRect.left + 410, clientRect.top + 130, 150, 30, hWnd, ID_EDIT_APARTMENT, WindowManager::GetHInstance());
 
-	btnSearch = new Button(clientRect.left + 350, clientRect.top + 10, 100, 30, hWnd, ID_BTN_SEARCH, WindowManager::GetHInstance(), _T("Найти"));
+	btnSearch = new Button(clientRect.left + 650, clientRect.top + 10, 100, 30, hWnd, ID_BTN_SEARCH, WindowManager::GetHInstance(), _T("Найти"));
 	btnSearch->SetEnabled(false);
 }
 
@@ -66,7 +86,35 @@ void MainWindow::UdpateWindow()
 {
 	tstring emptyStr(_T(""));
 	bool btnSearchEnabled = false;
-	if ((cBoxSearchCriterion->GetSelectedItem() != emptyStr) && (editSearchString->GetText().length() != 0))
+	if ((editPhoneNumberSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editSurnameSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editNameSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editPatronymicSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editStreetSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editHouseSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editBuildingSearch->GetText().length() != 0))
+	{
+		btnSearchEnabled = true;
+	}
+	if ((editApartmentSearch->GetText().length() != 0))
 	{
 		btnSearchEnabled = true;
 	}
@@ -74,32 +122,22 @@ void MainWindow::UdpateWindow()
 }
 
 void MainWindow::SearchPhoneBookList()
-{
-	tstring searchType = cBoxSearchCriterion->GetSelectedItem();
-	tstring searchKey = editSearchString->GetText();
-	if (searchType == tstring(_T("Фамилия")))
-	{
-		listViewPhonebook->SearchAndRefresh(SEARCH_TYPE::SURNAME, (LPTSTR)searchKey.c_str());
-	}
-	if (searchType == tstring(_T("Телефон")))
-	{
-		listViewPhonebook->SearchAndRefresh(SEARCH_TYPE::TELEPHONE, (LPTSTR)searchKey.c_str());
-	}
-	if (searchType == tstring(_T("Улица")))
-	{
-		listViewPhonebook->SearchAndRefresh(SEARCH_TYPE::STREET, (LPTSTR)searchKey.c_str());
-	}
-}
+{	
+	tstring phoneNumber(editPhoneNumberSearch->GetText());
+	tstring surname(editSurnameSearch->GetText());
+	tstring name(editNameSearch->GetText());
+	tstring patronymic(editPatronymicSearch->GetText());
+	tstring street(editStreetSearch->GetText());
+	tstring house(editHouseSearch->GetText());
+	tstring building(editBuildingSearch->GetText());
+	tstring apartment(editApartmentSearch->GetText());
 
-void MainWindow::OpenEditingWindow()
-{
-	PhoneBookNode *selectedItem = listViewPhonebook->GetSelectedItem();
-	if (selectedItem != nullptr)
-	{
-		WindowManager *windowManager = WindowManager::GetInstance();
-		windowManager->SetEditingPhoneBookNode(selectedItem);
-		windowManager->ShowWindow(WINDOW_TYPE::EDITING);
-	}
+	PhoneBookNode *searchedPhoneBookNode = new PhoneBookNode((LPTSTR)phoneNumber.c_str(), (LPTSTR)surname.c_str(), (LPTSTR)name.c_str(), (LPTSTR)patronymic.c_str(), 
+		(LPTSTR)street.c_str(), (LPTSTR)house.c_str(), (LPTSTR)building.c_str(), (LPTSTR)apartment.c_str());
+	
+	listViewPhonebook->SearchAndRefresh(searchedPhoneBookNode);
+
+	delete(searchedPhoneBookNode);
 }
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
@@ -119,7 +157,14 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 	{
 		int wmId = LOWORD(wParam);
 		int wmEvent = HIWORD(wParam);
-		// Разобрать выбор в меню:		
+		// Разобрать выбор в меню:	
+
+		if ((wmEvent == EN_UPDATE) && (mainWindow != NULL))
+		{
+			mainWindow->UdpateWindow();
+		}
+
+
 		switch (wmId)
 		{
 		case ID_LISTVIEW_PHONEBOOK:
@@ -145,22 +190,6 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			{
 				mainWindow->SearchPhoneBookList();
 				SendMessage(hWnd, WM_SIZE, NULL, NULL);
-			}
-		}
-		break;
-		case ID_EDIT_SEARCH:
-		{
-			if (wmEvent == EN_UPDATE)
-			{
-				mainWindow->UdpateWindow();
-			}				
-		}			
-		break;
-		case ID_COMBOBOX_SEARCH:
-		{						
-			if (wmEvent == CBN_SELCHANGE)
-			{
-				mainWindow->UdpateWindow();
 			}
 		}
 		break;
@@ -193,18 +222,7 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		EndPaint(hWnd, &ps);
 	}
 	break;
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code)
-		{
-		case NM_DBLCLK:
-		{		
-			mainWindow->OpenEditingWindow();			
-		}
-		break;		
-		break;		
-		default:
-			break;
-		}
+	case WM_NOTIFY:		
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
