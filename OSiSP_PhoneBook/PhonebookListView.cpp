@@ -3,6 +3,8 @@
 
 PhonebookListView::PhonebookListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int listViewIdentifier, HINSTANCE hInst, RECT windowRect) : countNodesOnPage(15)
 {	
+	currentPage = 1;
+	countPages = 1;
 	int windowWidth = windowRect.right - windowRect.left;
 	int windowHeight = windowRect.bottom - windowRect.top;
 	if (windowWidth != 0)
@@ -59,6 +61,17 @@ void PhonebookListView::SearchAndRefresh(PhoneBookNode *searchedPhoneBookNode)
 	Refresh(true);
 }
 
+void PhonebookListView::SetCurrentPageAndRefresh(long value)
+{
+	currentPage = value;
+	Refresh();
+}
+
+long PhonebookListView::GetCountPages()
+{
+	return countPages;
+}
+
 void PhonebookListView::EditSelectedRow()
 {
 	int selectedRow = listViewPhonebook->GetSelectedRow();
@@ -110,11 +123,24 @@ void PhonebookListView::InitPhoneBookList()
 {
 	ClearPhoneBookList();
 	unsigned long countOfPhoneBookNode = phoneDataBase->LoadCountOfPhoneBookNode();
-	phoneBookList = new std::vector<PhoneBookNode*>();
-	for (int i = 1; i <= countOfPhoneBookNode; ++i)
+	if ((countOfPhoneBookNode % countNodesOnPage) != 0)
 	{
-		PhoneBookNode *phoneBookNode = phoneDataBase->LoadPhoneBookNode(i);
-		phoneBookList->push_back(phoneBookNode);
+		countPages = (countOfPhoneBookNode / countNodesOnPage) + 1;
+	}
+	else
+	{
+		countPages = (countOfPhoneBookNode / countNodesOnPage);
+	}		
+	phoneBookList = new std::vector<PhoneBookNode*>();
+	unsigned long indexCurrentNode = ((countNodesOnPage * (currentPage - 1)) + 1);
+	for (int i = 1; i <= countNodesOnPage; ++i)
+	{
+		PhoneBookNode *phoneBookNode = phoneDataBase->LoadPhoneBookNode(indexCurrentNode);
+		if (phoneBookNode != nullptr)
+		{
+			phoneBookList->push_back(phoneBookNode);
+		}
+		++indexCurrentNode;		
 	}	
 }
 

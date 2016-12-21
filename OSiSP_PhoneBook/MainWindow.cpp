@@ -34,6 +34,8 @@ MainWindow::~MainWindow()
 	delete(editHouseSearch);
 	delete(editBuildingSearch);
 	delete(editApartmentSearch);
+
+	delete(cBoxPaging);
 }
 
 void MainWindow::Show()
@@ -75,6 +77,16 @@ void MainWindow::Init()
 
 	btnSearch = new Button(clientRect.left + 650, clientRect.top + 10, 100, 30, hWnd, ID_BTN_SEARCH, WindowManager::GetHInstance(), _T("Найти"));
 	btnSearch->SetEnabled(false);
+
+	long countPages = listViewPhonebook->GetCountPages();
+	cBoxPaging = new ComboBox(clientRect.left + 650, clientRect.top + 90, 100, 30, hWnd, ID_COMBOBOX_PAGING, WindowManager::GetHInstance(), countPages);
+	for (long i = 1; i <= countPages; ++i)
+	{
+		cBoxPaging->AddString(to_tstring(i));
+	}
+
+	btnPaging = new Button(clientRect.left + 770, clientRect.top + 90, 100, 30, hWnd, ID_BTN_PAGING, WindowManager::GetHInstance(), _T("Перейти"));
+	btnPaging->SetEnabled(false);
 }
 
 void MainWindow::RefrechListView()
@@ -119,6 +131,15 @@ void MainWindow::UdpateWindow()
 		btnSearchEnabled = true;
 	}
 	btnSearch->SetEnabled(btnSearchEnabled);
+
+	if (cBoxPaging->GetIndexSelectedItem() == -1)
+	{
+		btnPaging->SetEnabled(false);
+	}
+	else
+	{
+		btnPaging->SetEnabled(true);
+	}
 }
 
 void MainWindow::SearchPhoneBookList()
@@ -138,6 +159,15 @@ void MainWindow::SearchPhoneBookList()
 	listViewPhonebook->SearchAndRefresh(searchedPhoneBookNode);
 
 	delete(searchedPhoneBookNode);
+}
+
+void MainWindow::ChangeCurrentPage()
+{
+	long indexSelectedPage = cBoxPaging->GetIndexSelectedItem();
+	if (indexSelectedPage != -1)
+	{
+		listViewPhonebook->SetCurrentPageAndRefresh(indexSelectedPage + 1);
+	}
 }
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
@@ -164,7 +194,6 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			mainWindow->UdpateWindow();
 		}
 
-
 		switch (wmId)
 		{
 		case ID_LISTVIEW_PHONEBOOK:
@@ -190,6 +219,23 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			{
 				mainWindow->SearchPhoneBookList();
 				SendMessage(hWnd, WM_SIZE, NULL, NULL);
+			}
+		}
+		break;
+		case ID_BTN_PAGING:
+		{
+			if (wmEvent == BN_CLICKED)
+			{
+				mainWindow->ChangeCurrentPage();
+				SendMessage(hWnd, WM_SIZE, NULL, NULL);
+			}
+		}
+		break;
+		case ID_COMBOBOX_PAGING:
+		{
+			if (wmEvent == CBN_SELCHANGE)
+			{
+				mainWindow->UdpateWindow();
 			}
 		}
 		break;

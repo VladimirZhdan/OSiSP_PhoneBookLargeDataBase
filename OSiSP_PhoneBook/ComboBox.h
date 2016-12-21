@@ -10,6 +10,7 @@ public:
 	bool AddString(tstring value);
 	unsigned int GetCountString();
 	tstring GetSelectedItem();
+	long GetIndexSelectedItem();
 	~ComboBox();
 private:
 	HWND hComboBox;

@@ -21,6 +21,8 @@
 #define ID_EDIT_BUILDING 1027
 #define ID_EDIT_APARTMENT 1028
 #define ID_LISTVIEW_PHONEBOOK 1010
+#define ID_COMBOBOX_PAGING 1007
+#define ID_BTN_PAGING 1003
 
 class MainWindow : public Window
 {
@@ -54,12 +56,15 @@ protected:
 	Edit *editBuildingSearch;
 	Edit *editApartmentSearch;
 
+	ComboBox *cBoxPaging;
+	Button *btnPaging;
 	//methods
 	
 	void Init();	
 	void RefrechListView();
 	void UdpateWindow();
 	void SearchPhoneBookList();	
+	void ChangeCurrentPage();
 
 	//friends procs
 	

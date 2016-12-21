@@ -59,6 +59,19 @@ tstring ComboBox::GetSelectedItem()
 	}
 }
 
+long ComboBox::GetIndexSelectedItem()
+{
+	unsigned int result = SendMessage(hComboBox, CB_GETCURSEL, 0, 0);
+	if (result != CB_ERR)
+	{
+		return result;
+	}
+	else
+	{
+		return -1;
+	}	
+}
+
 
 ComboBox::~ComboBox()
 {

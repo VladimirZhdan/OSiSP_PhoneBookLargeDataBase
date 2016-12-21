@@ -18,7 +18,8 @@ public:
 	void ChangeSize(int newWidth, int newHeight);
 	void Refresh(bool isSearchRefresh = false);
 	void SearchAndRefresh(PhoneBookNode *searchedPhoneBookNode);	
-
+	void SetCurrentPageAndRefresh(long value);
+	long GetCountPages();
 	void EditSelectedRow();
 	void EndEditSelectedRow();
 	~PhonebookListView();
@@ -40,6 +41,8 @@ private:
 	PhoneDataBase *phoneDataBase;
 	std::vector<PhoneBookNode*>* phoneBookList;
 	const int countNodesOnPage;
+	long currentPage;
+	long countPages;
 
 };
 
