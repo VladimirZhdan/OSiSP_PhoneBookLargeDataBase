@@ -4,3 +4,4 @@ EXPORTS
 	LoadSearchPhoneBookListUsingSurname			@2
 	LoadSearchPhoneBookListUsingTelephone		@3
 	LoadSearchPhoneBookListUsingStreet			@4
+	EditPhoneBookNode							@5

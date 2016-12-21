@@ -19,6 +19,7 @@ public:
 	void Refresh(bool isSearchRefresh = false);
 	void SearchAndRefresh(SEARCH_TYPE searchType, LPTSTR searchKey);
 	PhoneBookNode *GetSelectedItem();
+	void SaveEditedPhoneBookNode(PhoneBookNode *value);
 
 	void EditSelectedRow();
 	void EndEditSelectedRow();

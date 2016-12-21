@@ -85,6 +85,11 @@ PhoneBookNode * PhonebookListView::GetSelectedItem()
 	}
 }
 
+void PhonebookListView::SaveEditedPhoneBookNode(PhoneBookNode * value)
+{
+	phoneDataBase->EditPhoneBookNode(value);	
+}
+
 void PhonebookListView::EditSelectedRow()
 {
 	int selectedRow = listViewPhonebook->GetSelectedRow();

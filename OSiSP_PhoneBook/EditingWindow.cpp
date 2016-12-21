@@ -57,8 +57,8 @@ void EditingWindow::Init()
 
 void EditingWindow::SaveChanges()
 {
-	tstring phoneNumber = editPhoneNumber->GetText();
-	CheckAndFillEmptyString(phoneNumber);
+	tstring *phoneNumber = new tstring(editPhoneNumber->GetText());
+	CheckAndFillEmptyString(*phoneNumber);
 	tstring surname = editSurname->GetText();
 	CheckAndFillEmptyString(surname);
 	tstring name = editName->GetText();
@@ -73,8 +73,9 @@ void EditingWindow::SaveChanges()
 	CheckAndFillEmptyString(building);
 	tstring apartment = editApartment->GetText();
 	CheckAndFillEmptyString(apartment);
-	PhoneBookNode *editedPhoneBookNode = new PhoneBookNode((LPTSTR)phoneNumber.c_str(), (LPTSTR)surname.c_str(), (LPTSTR)name.c_str(), 
+	PhoneBookNode *editedPhoneBookNode = new PhoneBookNode((LPTSTR)(*phoneNumber).c_str(), (LPTSTR)surname.c_str(), (LPTSTR)name.c_str(), 
 		(LPTSTR)patronymic.c_str(), (LPTSTR)street.c_str(), (LPTSTR)house.c_str(), (LPTSTR)building.c_str(), (LPTSTR)apartment.c_str());
+	editedPhoneBookNode->number = editingPhoneBookNode->number;
 	
 	WindowManager *windowManager = WindowManager::GetInstance();
 	windowManager->SaveEditedPhoneBookNode(editedPhoneBookNode);

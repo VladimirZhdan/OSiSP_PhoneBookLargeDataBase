@@ -24,6 +24,10 @@ void TrieNode::AddSonTrieNode(TCHAR key)
 
 TrieNode::~TrieNode()
 {
+	for (int i = 0; i < sonTrieNodeList.size(); ++i)
+	{
+		delete(sonTrieNodeList[i]);
+	}
 }
 
 bool TrieNode::CointainsSonTrieNode(TCHAR key)

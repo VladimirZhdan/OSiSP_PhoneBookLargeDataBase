@@ -32,9 +32,9 @@ void MainWindow::Hide()
 
 void MainWindow::SaveEditedPhoneBookNode(PhoneBookNode *value)
 {
-	// SAVE
-
-	//this->editedPhoneBookNode = value;
+	listViewPhonebook->SaveEditedPhoneBookNode(value);
+	listViewPhonebook->Refresh();
+	SendMessage(hWnd, WM_SIZE, NULL, NULL);
 }
 
 void MainWindow::Init()

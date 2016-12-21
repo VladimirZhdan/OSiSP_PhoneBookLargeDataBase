@@ -4,8 +4,7 @@
 PhoneDataBase::PhoneDataBase(HWND hWnd, LPTSTR libraryFilePath)
 {
 	this->hWnd = hWnd;
-	this->libraryFilePath = libraryFilePath;
-	//hLibrary = LoadLibrary(libratyPath.c_str());
+	this->libraryFilePath = libraryFilePath;	
 	hLibrary = LoadLibrary(_T("OSiSP_PhoneDataBase"));
 	if (hLibrary)
 	{
@@ -72,6 +71,14 @@ std::vector<PhoneBookNode*>* PhoneDataBase::LoadSearchPhoneBookListUsingStreet(L
 	}
 }
 
+void PhoneDataBase::EditPhoneBookNode(PhoneBookNode * phoneBookNode)
+{
+	if (pEditPhoneBookNode != NULL)
+	{
+		pEditPhoneBookNode(phoneBookNode, libraryFilePath);
+	}	
+}
+
 
 PhoneDataBase::~PhoneDataBase()
 {
@@ -84,6 +91,7 @@ void PhoneDataBase::Init()
 	pLoadSearchPhoneBookListUsingSurname = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingSurname"));
 	pLoadSearchPhoneBookListUsingTelephone = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingTelephone"));
 	pLoadSearchPhoneBookListUsingStreet = (PLoadSearchPhoneBookList)ImportFunction(_T("LoadSearchPhoneBookListUsingStreet"));
+	pEditPhoneBookNode = (PEditPhoneBookNode)ImportFunction(_T("EditPhoneBookNode"));
 }
 
 FARPROC PhoneDataBase::ImportFunction(tstring functionName)

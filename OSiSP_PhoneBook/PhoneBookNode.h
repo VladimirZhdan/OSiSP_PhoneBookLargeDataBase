@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tchar.h>
+
 class PhoneBookNode
 {
 public:
@@ -17,6 +19,7 @@ public:
 	LPTSTR GetBuilding();
 	LPTSTR GetApartment();
 	~PhoneBookNode();
+	unsigned long long number;
 private:
 	LPTSTR phoneNumber;
 	LPTSTR surname;
@@ -25,6 +28,6 @@ private:
 	LPTSTR street;
 	LPTSTR house;
 	LPTSTR building;
-	LPTSTR apartment;
+	LPTSTR apartment;		
 };
 

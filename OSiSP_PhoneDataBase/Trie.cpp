@@ -30,6 +30,7 @@ vector<PhoneBookNode*>* Trie::GetSearchPhoneBookList(LPTSTR searchKey)
 
 Trie::~Trie()
 {
+	delete(headTrie);
 }
 
 void Trie::InitializationTree(vector<PhoneBookNode*>* phoneBookList)
