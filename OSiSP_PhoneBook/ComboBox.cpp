@@ -6,10 +6,19 @@ ComboBox::ComboBox(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int c
 {
 	this->currentCountString = 0;
 	this->maxCountString = countString;
-	int deltaNHeight = 15 * countString;
+	int deltaNHeight;
+	if (countString > 10)
+	{
+		deltaNHeight = 15 * 10;
+	}
+	else
+	{
+		deltaNHeight = 15 * countString;
+	}
+	 
 	hComboBox = CreateWindowEx(
 		0,
-		(LPCWSTR)WC_COMBOBOX, NULL, WS_VISIBLE | WS_CHILD | WS_BORDER | CBS_DROPDOWNLIST | CBS_HASSTRINGS | CBS_SIMPLE,
+		(LPCWSTR)WC_COMBOBOX, NULL, WS_VISIBLE | WS_CHILD | WS_BORDER | CBS_DROPDOWNLIST | CBS_HASSTRINGS | CBS_SIMPLE | WS_VSCROLL,
 		X,
 		Y,
 		nWidth,

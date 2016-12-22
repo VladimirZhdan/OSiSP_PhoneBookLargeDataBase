@@ -8,7 +8,7 @@ ListView::ListView(int X, int Y, int nWidth, int nHeight, HWND hWndParent, int l
 	//InitCommonControlsEx(&icex);
 	hListView = CreateWindowEx(
 		0,
-		(LPCWSTR)WC_LISTVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_BORDER | LVS_SHOWSELALWAYS | LVS_SINGLESEL | LVS_REPORT | LVS_EDITLABELS,
+		(LPCWSTR)WC_LISTVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_BORDER | LVS_SHOWSELALWAYS | LVS_REPORT | LVS_SINGLESEL,
 		X,
 		Y,
 		nWidth,

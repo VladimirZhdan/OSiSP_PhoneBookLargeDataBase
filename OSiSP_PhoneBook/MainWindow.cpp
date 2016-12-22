@@ -52,7 +52,7 @@ void MainWindow::Init()
 {
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
- 	listViewPhonebook = new PhonebookListView(0, 160, clientRect.right, clientRect.bottom - 50, hWnd, ID_LISTVIEW_PHONEBOOK, WindowManager::GetHInstance(), clientRect);
+ 	listViewPhonebook = new PhonebookListView(0, 160, clientRect.right, clientRect.bottom - 200, hWnd, ID_LISTVIEW_PHONEBOOK, WindowManager::GetHInstance(), clientRect);
 
 	btnRefresh = new Button(clientRect.right - 100, clientRect.top + 10, 100, 30, hWnd, ID_BTN_REFRESH, WindowManager::GetHInstance(), _T("Обновить"));
 	btnRefresh->SetEnabled(true);

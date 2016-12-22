@@ -28,6 +28,7 @@ private:
 		char * imputFileBuffer;
 		HANDLE hFileMapping;
 		__int64 inputFileSize;
+		DWORD bytesInBlock;
 	};
 
 	DataBaseFileMapping dataBaseFileMapping;

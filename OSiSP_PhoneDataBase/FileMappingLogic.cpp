@@ -21,9 +21,7 @@ PhoneBookNode * FileMappingLogic::GetPhoneBookNode(unsigned long index)
 	PhoneBookNode *result = nullptr;
 	if (isDataBaseFileMappingInit && (index <= GetCountOfPhoneBookNode()))
 	{
-		const int countOfFields = 8;
-		LPCSTR tempFileBuffer = (LPCSTR)dataBaseFileMapping.imputFileBuffer;
-		TCHAR currentSymbol;
+		const int countOfFields = 8;				
 		LPTSTR field = new TCHAR[256];
 
 		int fieldNumber = 0;
@@ -38,65 +36,86 @@ PhoneBookNode * FileMappingLogic::GetPhoneBookNode(unsigned long index)
 		tstring street = TEXT("");
 		tstring house = TEXT("");
 		tstring building = TEXT("");
-		tstring apartment = TEXT("");
-
-		for (long offset = offsetOfPhoneBookNodeInFile[index - 1]; (offset < dataBaseFileMapping.inputFileSize) && (!isPhoneBookNodeGet); ++offset)
-		{			
-			if ((tempFileBuffer[offset] != L'\n') && (tempFileBuffer[offset] != L'\r') && (offset != dataBaseFileMapping.inputFileSize - 1))
+		tstring apartment = TEXT("");		
+		
+		bool isLastBlock = false;
+		DWORD bytesInBlock = dataBaseFileMapping.bytesInBlock;
+		__int64 offsetBlock = (offsetOfPhoneBookNodeInFile[index - 1] / bytesInBlock) * bytesInBlock;
+		DWORD offsetInBlock = (offsetOfPhoneBookNodeInFile[index - 1] % bytesInBlock);
+		for (__int64 fileSize = dataBaseFileMapping.inputFileSize - offsetBlock; (fileSize > 0) && (!isPhoneBookNodeGet); fileSize -= bytesInBlock)
+		{
+			if (fileSize <= bytesInBlock)
 			{
-				field[currentFieldLength] = tempFileBuffer[offset];
-				++currentFieldLength;
-				field[currentFieldLength] = L'\0';
+				bytesInBlock = (DWORD)fileSize;
+				isLastBlock = true;
 			}
-			else
+
+			LPCSTR tempFileBuffer = (LPCSTR)MapViewOfFile(dataBaseFileMapping.hFileMapping, FILE_MAP_READ, (DWORD)(offsetBlock >> 32), (DWORD)(offsetBlock & 0xFFFFFFFF), bytesInBlock);
+
+			DWORD startIndex = 0;
+			if (offsetInBlock != 0)
 			{
-				if (offset == dataBaseFileMapping.inputFileSize - 1)
+				startIndex = offsetInBlock;
+				offsetInBlock = 0;
+			}			
+			for (DWORD indexByteInBlock = startIndex; indexByteInBlock < bytesInBlock; ++indexByteInBlock)
+			{
+				if ((tempFileBuffer[indexByteInBlock] != '\n') && (tempFileBuffer[indexByteInBlock] != '\r') && !((indexByteInBlock == bytesInBlock - 1) && isLastBlock))
 				{
-					field[currentFieldLength] = tempFileBuffer[offset];
+					field[currentFieldLength] = tempFileBuffer[indexByteInBlock];
 					++currentFieldLength;
 					field[currentFieldLength] = L'\0';
 				}
-				if (currentFieldLength != 0)
+				else
 				{
-					switch (fieldNumber)
+					if (indexByteInBlock == bytesInBlock - 1 && (isLastBlock))
 					{
-					case 0:
-						phoneNumber = tstring(field);
-						break;
-					case 1:
-						surname = tstring(field);
-						break;
-					case 2:
-						name = tstring(field);
-						break;
-					case 3:
-						patronymic = tstring(field);
-						break;
-					case 4:
-						street = tstring(field);
-						break;
-					case 5:
-						house = tstring(field);
-						break;
-					case 6:
-						building = tstring(field);
-						break;
-					case 7:
-						apartment = tstring(field);
-						break;
+						field[currentFieldLength] = tempFileBuffer[indexByteInBlock];
+						++currentFieldLength;
+						field[currentFieldLength] = L'\0';
 					}
-					++fieldNumber;
-					currentFieldLength = 0;
-					if (fieldNumber == countOfFields)
+					if (currentFieldLength != 0)
 					{
-						result = new PhoneBookNode((LPTSTR)phoneNumber.c_str(), (LPTSTR)surname.c_str(), (LPTSTR)name.c_str(), (LPTSTR)patronymic.c_str(), 
-							(LPTSTR)street.c_str(), (LPTSTR)house.c_str(), (LPTSTR)building.c_str(), (LPTSTR)apartment.c_str());
-						isPhoneBookNodeGet = true;
+						switch (fieldNumber)
+						{
+						case 0:
+							phoneNumber = tstring(field);
+							break;
+						case 1:
+							surname = tstring(field);
+							break;
+						case 2:
+							name = tstring(field);
+							break;
+						case 3:
+							patronymic = tstring(field);
+							break;
+						case 4:
+							street = tstring(field);
+							break;
+						case 5:
+							house = tstring(field);
+							break;
+						case 6:
+							building = tstring(field);
+							break;
+						case 7:
+							apartment = tstring(field);
+							break;
+						}
+						++fieldNumber;
+						currentFieldLength = 0;
+						if (fieldNumber == countOfFields)
+						{
+							result = new PhoneBookNode((LPTSTR)phoneNumber.c_str(), (LPTSTR)surname.c_str(), (LPTSTR)name.c_str(), (LPTSTR)patronymic.c_str(),
+								(LPTSTR)street.c_str(), (LPTSTR)house.c_str(), (LPTSTR)building.c_str(), (LPTSTR)apartment.c_str());
+							isPhoneBookNodeGet = true;
+						}
 					}
 				}
 			}
+			offsetBlock += bytesInBlock;
 		}
-
 	}
 	return result;
 }
@@ -155,6 +174,10 @@ FileMappingLogic::~FileMappingLogic()
 
 void FileMappingLogic::Initialization(LPTSTR fileName)
 {
+	SYSTEM_INFO sinf;
+	GetSystemInfo(&sinf);
+	dataBaseFileMapping.bytesInBlock = sinf.dwAllocationGranularity;
+
 	dataBaseFileMapping.hImputFile = CreateFile(
 		fileName,
 		GENERIC_READ,
@@ -175,7 +198,7 @@ void FileMappingLogic::Initialization(LPTSTR fileName)
 	dataBaseFileMapping.inputFileSize = GetFileSize(dataBaseFileMapping.hImputFile, &fileSizeHigh);
 	dataBaseFileMapping.inputFileSize += (((__int64)fileSizeHigh) << 32);
 
-	dataBaseFileMapping.hFileMapping = CreateFileMapping(dataBaseFileMapping.hImputFile, NULL, PAGE_READONLY, 0, dataBaseFileMapping.inputFileSize, L"FileMappingPhoneDatabase");
+	dataBaseFileMapping.hFileMapping = CreateFileMapping(dataBaseFileMapping.hImputFile, NULL, PAGE_READONLY, 0, 0, L"FileMappingPhoneDatabase");
 	
 	if (dataBaseFileMapping.hFileMapping != NULL)
 	{
@@ -189,43 +212,62 @@ void FileMappingLogic::Initialization(LPTSTR fileName)
 }
 
 void FileMappingLogic::SetOffsetOfPhoneBookNodeInFile()
-{	
-
-
-
+{		
 	const int countOfFields = 8;
-
-	LPCSTR tempFileBuffer = (LPCSTR)dataBaseFileMapping.imputFileBuffer;	
 
 	int fieldNumber = 0;
 	bool isCurrentFieldHasNotNullLength = false;
 
-	long offset = 0;
+	__int64 offset = 0;
 	bool isNewNode = true;
-	
-	for (long offset = 0; offset < dataBaseFileMapping.inputFileSize; ++offset)
+
+	bool isLastBlock = false;
+	DWORD bytesInBlock = dataBaseFileMapping.bytesInBlock;
+	for (__int64 fileSize = dataBaseFileMapping.inputFileSize; fileSize > 0; fileSize -= bytesInBlock)
 	{
-		if ((tempFileBuffer[offset] != '\n') && (tempFileBuffer[offset] != '\r') && (offset != dataBaseFileMapping.inputFileSize - 1))
+		if (fileSize <= bytesInBlock)
 		{
-			if (isNewNode)
-			{
-				isNewNode = false;
-				offsetOfPhoneBookNodeInFile.push_back(offset);
-			}
-			isCurrentFieldHasNotNullLength = true;
-		}
-		else
-		{
-			if (isCurrentFieldHasNotNullLength)
-			{
-				++fieldNumber;
-				isCurrentFieldHasNotNullLength = false;
-				if (fieldNumber == countOfFields)
-				{
-					isNewNode = true;
-					fieldNumber = 0;
-				}
-			}
+			bytesInBlock = (DWORD)fileSize;
+			isLastBlock = true;
 		}		
-	}	
+		
+		LPCSTR tempFileBuffer = (LPCSTR)MapViewOfFile(dataBaseFileMapping.hFileMapping, FILE_MAP_READ, (DWORD)(offset >> 32), (DWORD)(offset &0xFFFFFFFF), bytesInBlock);
+
+		for (DWORD indexByteInBlock = 0; indexByteInBlock < bytesInBlock; ++indexByteInBlock)
+		{
+			if ((tempFileBuffer[indexByteInBlock] != '\n') && (tempFileBuffer[indexByteInBlock] != '\r'))
+			{
+				if (isNewNode)
+				{
+					isNewNode = false;
+					offsetOfPhoneBookNodeInFile.push_back(offset + indexByteInBlock);
+				}
+				isCurrentFieldHasNotNullLength = true;
+			}
+			else
+			{
+				if (isCurrentFieldHasNotNullLength)
+				{
+					++fieldNumber;
+					isCurrentFieldHasNotNullLength = false;
+					if (fieldNumber == countOfFields)
+					{
+						isNewNode = true;
+						fieldNumber = 0;
+					}
+				}
+			}			
+		}
+		if (isLastBlock)
+		{
+			++fieldNumber;
+			isCurrentFieldHasNotNullLength = false;
+			if (fieldNumber == countOfFields)
+			{
+				isNewNode = true;
+				fieldNumber = 0;
+			}
+		}	
+		offset += bytesInBlock;
+	}
 }
