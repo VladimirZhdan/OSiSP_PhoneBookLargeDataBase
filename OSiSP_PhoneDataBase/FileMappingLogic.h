@@ -27,7 +27,7 @@ private:
 		HANDLE hImputFile;
 		char * imputFileBuffer;
 		HANDLE hFileMapping;
-		long inputFileSize;
+		__int64 inputFileSize;
 	};
 
 	DataBaseFileMapping dataBaseFileMapping;

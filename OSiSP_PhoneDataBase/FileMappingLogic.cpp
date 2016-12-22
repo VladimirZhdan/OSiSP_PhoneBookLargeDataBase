@@ -171,7 +171,9 @@ void FileMappingLogic::Initialization(LPTSTR fileName)
 		return;
 	}
 
-	dataBaseFileMapping.inputFileSize = GetFileSize(dataBaseFileMapping.hImputFile, NULL); //for files < 4gb
+	DWORD fileSizeHigh;
+	dataBaseFileMapping.inputFileSize = GetFileSize(dataBaseFileMapping.hImputFile, &fileSizeHigh);
+	dataBaseFileMapping.inputFileSize += (((__int64)fileSizeHigh) << 32);
 
 	dataBaseFileMapping.hFileMapping = CreateFileMapping(dataBaseFileMapping.hImputFile, NULL, PAGE_READONLY, 0, dataBaseFileMapping.inputFileSize, L"FileMappingPhoneDatabase");
 	
@@ -188,6 +190,9 @@ void FileMappingLogic::Initialization(LPTSTR fileName)
 
 void FileMappingLogic::SetOffsetOfPhoneBookNodeInFile()
 {	
+
+
+
 	const int countOfFields = 8;
 
 	LPCSTR tempFileBuffer = (LPCSTR)dataBaseFileMapping.imputFileBuffer;	
